@@ -1,9 +1,11 @@
+import { Code2 } from "lucide-react";
+import { SectionHeading } from "@/components/section-heading";
 import { skills } from "@/data/site";
 
 export function CodingSection() {
   return (
     <section id="work" className="page-section">
-      <h2 className="title-section">Coding</h2>
+      <SectionHeading icon={Code2}>Coding</SectionHeading>
       <p className="prose-muted-constrained">
         I've worked with Drupal for a living since 2009 — it's still what I know
         best. In recent years I've leaned into more modern stacks: TypeScript,

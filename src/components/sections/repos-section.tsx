@@ -1,5 +1,7 @@
+import { FolderGit2 } from "lucide-react";
 import { OpensInNewTab } from "@/components/opens-new-tab";
 import { RepoCard } from "@/components/repo-card";
+import { SectionHeading } from "@/components/section-heading";
 import { site } from "@/data/site";
 import { getPublicRepos } from "@/lib/github";
 
@@ -9,7 +11,7 @@ export async function ReposSection() {
   return (
     <section id="repos" className="page-section-loose">
       <div className="repos-intro">
-        <h2 className="title-section">Public repositories</h2>
+        <SectionHeading icon={FolderGit2}>Public repositories</SectionHeading>
         <p className="prose-muted">My own coding projects.</p>
       </div>
       {loadError ? (

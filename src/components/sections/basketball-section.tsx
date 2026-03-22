@@ -1,10 +1,12 @@
+import { Trophy } from "lucide-react";
 import { OpensInNewTab } from "@/components/opens-new-tab";
+import { SectionHeading } from "@/components/section-heading";
 import { basketballLinks } from "@/data/site";
 
 export function BasketballSection() {
   return (
     <section id="basketball" className="page-section">
-      <h2 className="title-section">Basketball</h2>
+      <SectionHeading icon={Trophy}>Basketball</SectionHeading>
       <p className="prose-muted-constrained">
         A lot of evenings and weekends revolve around youth hoops nowadays. My
         daughter plays at{" "}
