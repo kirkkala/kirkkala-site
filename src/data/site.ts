@@ -25,15 +25,20 @@ export const skills = [
   "Delivery & mentoring",
 ] as const;
 
-/** Add scans to `public/photography/` and list them here. Empty = placeholder frames. */
+/** Add images to `public/photography/` and list them here. */
 export const photography: readonly {
   src: string;
   alt: string;
   caption?: string;
 }[] = [
-  // {
-  //   src: "/photography/photo.jpg",
-  //   alt: "Alt",
-  //   caption: "Caption",
-  // },
+  {
+    src: "/photography/nuuksio-upside-down.jpg",
+    alt: "Nuuksio upside down",
+    caption: "Nuuksio — 35mm",
+  },
+  {
+    src: "/photography/new-york.jpg",
+    alt: "New York City",
+    caption: "New York — Medium format",
+  },
 ];

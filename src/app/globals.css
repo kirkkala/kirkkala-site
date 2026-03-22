@@ -203,31 +203,47 @@ button:focus-visible {
   }
 
   .photo-frame {
-    @apply relative aspect-[3/2] overflow-hidden rounded-md border border-border bg-surface-muted shadow-inner;
+    /* Fixed 3:2 tile for every thumb; portrait + landscape sources are cropped, never stretched */
+    @apply relative block w-full aspect-[3/2] overflow-hidden rounded-md border border-border bg-surface-muted shadow-inner;
+  }
+
+  .photo-frame :is(img) {
+    object-fit: cover;
+    object-position: center;
   }
 
   .photo-grid {
-    @apply mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3;
+    @apply mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6;
+  }
+
+  .photo-tile {
+    @apply block w-full cursor-zoom-in rounded-md border-0 bg-transparent p-0 text-left;
+  }
+
+  .photo-tile:focus {
+    outline: none;
+  }
+
+  .photo-tile:focus-visible {
+    @apply rounded-md ring-2 ring-accent ring-offset-2 ring-offset-paper;
+  }
+
+  .photo-tile:hover .photo-frame {
+    @apply border-accent/35 shadow-md;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .photo-tile .photo-frame {
+      @apply transition-[border-color,box-shadow] duration-300 ease-out;
+    }
   }
 
   .photo-caption {
     @apply text-sm text-muted;
   }
 
-  .photo-placeholder {
-    @apply relative aspect-[3/2] overflow-hidden rounded-md border border-dashed border-border;
-  }
-
-  .photo-placeholder-shade {
-    @apply absolute inset-0 bg-gradient-to-br from-[#2a2520] via-[#3d3530] to-[#1a1614];
-  }
-
-  .photo-placeholder-label {
-    @apply absolute bottom-3 left-3 font-mono text-[10px] uppercase tracking-widest text-white/70;
-  }
-
   .photo-item {
-    @apply space-y-2;
+    @apply min-w-0 space-y-2;
   }
 
   .site-header {
@@ -269,4 +285,17 @@ button:focus-visible {
   .repo-card-lang {
     @apply mt-3 font-mono text-xs text-muted;
   }
+}
+
+/* yet-another-react-lightbox — backdrop + captions use site tokens */
+.yarl__portal {
+  --yarl__color_backdrop: color-mix(in srgb, var(--ink) 91%, transparent);
+  --yarl__color_button: color-mix(in srgb, var(--paper) 75%, transparent);
+  --yarl__color_button_active: var(--paper);
+  --yarl__slide_captions_container_background: color-mix(
+    in srgb,
+    var(--ink) 72%,
+    transparent
+  );
+  --yarl__slide_description_color: var(--paper);
 }
