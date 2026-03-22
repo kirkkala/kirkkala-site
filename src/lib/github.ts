@@ -15,6 +15,12 @@ export type PublicReposResult = {
   loadError: string | null;
 };
 
+/** Bump when adopting a new supported dated REST line — tests import this object so values cannot drift. */
+export const githubRestJsonHeaders = {
+  Accept: "application/vnd.github+json",
+  "X-GitHub-Api-Version": "2026-03-10",
+} as const satisfies Record<string, string>;
+
 export async function getPublicRepos(
   username: string,
 ): Promise<PublicReposResult> {
@@ -24,10 +30,7 @@ export async function getPublicRepos(
   try {
     res = await fetch(url, {
       next: { revalidate: 3600 },
-      headers: {
-        Accept: "application/vnd.github+json",
-        "X-GitHub-Api-Version": "2026-03-10",
-      },
+      headers: githubRestJsonHeaders,
     });
   } catch {
     return {
