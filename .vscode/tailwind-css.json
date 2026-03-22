@@ -1,0 +1,17 @@
+{
+  "version": 1.1,
+  "atDirectives": [
+    {
+      "name": "@theme",
+      "description": "Tailwind CSS v4: register theme variables (e.g. `@theme inline { ... }`)."
+    },
+    {
+      "name": "@layer",
+      "description": "Tailwind CSS: cascade layer (`base`, `components`, `utilities`, or custom)."
+    },
+    {
+      "name": "@apply",
+      "description": "Tailwind CSS: inline utility classes in CSS."
+    }
+  ]
+}
