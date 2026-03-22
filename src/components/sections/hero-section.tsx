@@ -6,7 +6,9 @@ export function HeroSection() {
       <p className="eyebrow">Hello world</p>
       <h1 className="title-hero">{site.name}</h1>
       <p className="prose-muted-lg">
-        {site.tagline} <span className="text-ink/80">{site.location}.</span>
+        {site.tagline}
+        <br />
+        <span className="text-ink/80 text-sm">From Helsinki, Finland.</span>
       </p>
     </section>
   );

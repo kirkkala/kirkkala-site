@@ -6,8 +6,8 @@ export function PhotographySection() {
     <section id="photos">
       <h2 className="title-section">Analogue days</h2>
       <p className="prose-muted-constrained mt-3">
-        Forage edison bulb butcher master cleanse authentic gluten-free.
-        Humblebrag biodiesel kombucha.
+        A few frames from when I spent more time in the darkroom than in the
+        terminal.
       </p>
 
       <PhotographyGallery photos={photography} />

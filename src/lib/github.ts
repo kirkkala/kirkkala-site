@@ -15,7 +15,6 @@ export type PublicReposResult = {
   loadError: string | null;
 };
 
-/** Bump when adopting a new supported dated REST line — tests import this object so values cannot drift. */
 export const githubRestJsonHeaders = {
   Accept: "application/vnd.github+json",
   "X-GitHub-Api-Version": "2026-03-10",
@@ -68,7 +67,7 @@ export async function getPublicRepos(
 
   const repos = (data as GitHubRepo[])
     .filter((r) => !r.archived)
-    // Stargazers = users who starred the repo on GitHub; sort puts the most-starred first for the grid.
+    // Stargazers = those who starred the repo on GitHub, sorting by the most-starred first for the grid.
     .sort((a, b) => b.stargazers_count - a.stargazers_count)
     .slice(0, 12);
 

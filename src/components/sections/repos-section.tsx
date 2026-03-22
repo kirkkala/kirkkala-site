@@ -10,19 +10,7 @@ export async function ReposSection() {
     <section id="repos" className="page-section-loose">
       <div className="repos-intro">
         <h2 className="title-section">Public repositories</h2>
-        <p className="prose-muted">
-          Pulled from{" "}
-          <a
-            href={site.links.github}
-            className="link-accent"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub
-            <OpensInNewTab />
-          </a>{" "}
-          and refreshed about once an hour.
-        </p>
+        <p className="prose-muted">My own coding projects.</p>
       </div>
       {loadError ? (
         <p className="empty-panel" role="status">

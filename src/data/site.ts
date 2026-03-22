@@ -1,9 +1,8 @@
 export const site = {
   name: "Timo Kirkkala",
   handle: "kirkkala",
-  tagline: "I'm baby butcher taxidermy hexagon.",
-  intro:
-    "I'm baby butcher wolf air plant portland chillwave beard freegan. Man braid food truck everyday carry, venmo mustache intelligentsia af normcore hexagon succulents fixie",
+  tagline:
+    "Web dev & tech delivery. Basketball, bikes, photography. And a dad.",
   location: "Helsinki",
   links: {
     site: "https://kirkkala.com",
@@ -12,17 +11,29 @@ export const site = {
   },
 } as const;
 
+/** HNMKY / youth basketball tooling — linked from the Basketball section */
+export const basketballLinks = {
+  club: "https://hnmky.fi",
+  elsaProduct: "https://elsa.basket.fi",
+  myclub: "https://www.myclub.fi/",
+  elsaMyclub: "https://github.com/kirkkala/elsa-myclub",
+  homegameOfficials: "https://github.com/kirkkala/homegame-officials",
+} as const;
+
 export const skills = [
+  "Drupal",
+  "PHP",
   "TypeScript",
   "React",
   "Next.js",
-  "Drupal",
-  "PHP",
   "Docker",
   "Git",
   "Node.js",
+  "Elasticsearch",
   "APIs & integrations",
   "Delivery & mentoring",
+  "Agile",
+  "SCRUM master",
 ] as const;
 
 /** Add images to `public/photography/` and list them here. */
