@@ -2,12 +2,12 @@ export const site = {
   name: "Timo Kirkkala",
   handle: "kirkkala",
   tagline:
-    "Web dev & tech delivery. Basketball, bikes, photography. And a dad.",
+    "Web development and tech delivery at work. Basketball, cycling, nature, photography and a dad when not at work.",
   location: "Helsinki",
   links: {
     site: "https://kirkkala.com",
     github: "https://github.com/kirkkala",
-    employer: "https://github.com/digitalist-se",
+    linkedin: "https://www.linkedin.com/in/timokirkkala/",
   },
 } as const;
 
