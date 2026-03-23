@@ -82,7 +82,7 @@ button:focus-visible {
   }
 
   .eyebrow {
-    @apply text-sm font-medium uppercase tracking-[0.2em] text-accent;
+    @apply mb-0 text-sm font-medium uppercase tracking-[0.2em] text-accent;
   }
 
   .title-hero {

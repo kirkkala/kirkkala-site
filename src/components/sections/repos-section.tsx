@@ -12,7 +12,10 @@ export async function ReposSection() {
     <section id="repos" className="page-section-loose">
       <div className="repos-intro">
         <SectionHeading icon={FolderGit2}>Public repositories</SectionHeading>
-        <p className="prose-muted">My own coding projects.</p>
+        <p className="prose-muted">
+          Some work related, some just for fun and some useful - or at least I
+          think so.
+        </p>
       </div>
       {loadError ? (
         <p className="empty-panel" role="status">

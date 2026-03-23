@@ -15,13 +15,13 @@ const body = Source_Sans_3({
 
 export const metadata: Metadata = {
   title: {
-    default: `${site.name} · Kirkkala`,
+    default: `${site.name}`,
     template: `%s · Kirkkala`,
   },
   description: site.tagline,
   metadataBase: new URL(site.links.site),
   openGraph: {
-    title: `${site.name} · Kirkkala`,
+    title: `${site.name}`,
     description: site.tagline,
     url: site.links.site,
     siteName: "Kirkkala",

@@ -8,8 +8,7 @@ export function BasketballSection() {
     <section id="basketball" className="page-section">
       <SectionHeading icon={Trophy}>Basketball</SectionHeading>
       <p className="prose-muted-constrained">
-        A lot of evenings and weekends revolve around youth hoops nowadays. My
-        daughter plays at{" "}
+        My daughter plays at{" "}
         <a
           href={basketballLinks.club}
           className="link-accent"
@@ -18,17 +17,17 @@ export function BasketballSection() {
         >
           HNMKY
           <OpensInNewTab />
-        </a>
-        , and I play too — mostly for fun after years of ice hockey, floorball,
-        and soccer, so the court still feels pretty new.
+        </a>{" "}
+        and I play too, since 2025. Post ice-hockey, post floorball, post
+        soccer, so that basketball court still feels suspiciously new.
       </p>
       <p className="prose-muted-constrained mb-3">
-        In addition I am a volunteering{" "}
+        I&apos;m also a volunteer with the role of{" "}
         <span lang="fi" className="text-ink">
           joukkueenjohtaja
         </span>{" "}
-        (team manager) there. Schedules and spreadsheets got painful, so I put
-        together a couple of small apps for the club:
+        (team manager). The sheduling and spreadsheets got painful so I built
+        two cool react/NextJS apps for the club:
       </p>
       <ul className="basketball-tools mt-0">
         <li>
@@ -43,7 +42,7 @@ export function BasketballSection() {
           </a>
           {" — "}
           <span className="text-sm text-muted">
-            Excel convert tool to bring games from the association&apos;s{" "}
+            Pulls games from the association&apos;s{" "}
             <a
               href={basketballLinks.elsaProduct}
               className="link-accent"
@@ -63,7 +62,7 @@ export function BasketballSection() {
               MyClub
               <OpensInNewTab />
             </a>
-            &apos;s event management in just few minutes.
+            &apos;s events in just a few minutes insted of hours of manual work.
           </span>
         </li>
         <li>
@@ -78,8 +77,8 @@ export function BasketballSection() {
           </a>
           {" — "}
           <span className="text-sm text-muted">
-            A web app for assigning the game officials for home games of all
-            HNMKY teams.
+            Assign tool for the home-game officials for all HNMKY, it even
+            tracks the first aid kits of each team.
           </span>
         </li>
       </ul>
