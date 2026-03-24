@@ -126,6 +126,23 @@ button:focus-visible {
     @apply text-sm text-muted hover:text-ink;
   }
 
+  .nav-link-inpage-active {
+    @apply text-ink font-medium decoration-current/60;
+  }
+
+  /* Fade in with .site-logo-text timing; stay visible past hero (including while header is hovered). */
+  .nav-link-top {
+    @apply text-muted hover:text-accent;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease-out;
+  }
+
+  .site-header[data-past-hero="true"] .nav-link-top {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   .nav-link-header-external {
     @apply text-sm text-accent;
   }
@@ -147,15 +164,11 @@ button:focus-visible {
   }
 
   .site-logo-mark {
-    @apply size-8 shrink-0 rounded-md sm:size-9;
+    @apply size-8 shrink-0 rounded-full sm:size-9;
   }
 
   .site-logo-reveal {
     @apply grid min-w-0 flex-1 grid-cols-[0fr] overflow-hidden pl-2 transition-[grid-template-columns] duration-300 ease-out;
-  }
-
-  .site-header:hover .site-logo-reveal {
-    grid-template-columns: 1fr;
   }
 
   .site-logo-reveal-inner {
@@ -166,14 +179,37 @@ button:focus-visible {
     @apply inline-block whitespace-nowrap font-display text-base font-medium capitalize text-ink opacity-0 transition-opacity duration-300 ease-out sm:text-lg;
   }
 
-  .site-header:hover .site-logo-text {
+  /* Home: show handle while hero is still on screen */
+  .site-header:not([data-past-hero="true"]) .site-logo-reveal {
+    grid-template-columns: 1fr;
+  }
+
+  .site-header:not([data-past-hero="true"]) .site-logo-text {
+    opacity: 1;
+  }
+
+  /* After hero: collapsed; expand on header hover */
+  .site-header[data-past-hero="true"]:hover .site-logo-reveal {
+    grid-template-columns: 1fr;
+  }
+
+  .site-header[data-past-hero="true"]:hover .site-logo-text {
     opacity: 1;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .site-logo-reveal,
-    .site-logo-text {
+    .site-logo-text,
+    .nav-link-top {
       transition: none;
+    }
+
+    .site-header[data-past-hero="true"] .site-logo-reveal {
+      grid-template-columns: 1fr;
+    }
+
+    .site-header[data-past-hero="true"] .site-logo-text {
+      opacity: 1;
     }
   }
 
