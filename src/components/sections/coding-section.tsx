@@ -8,7 +8,7 @@ export function CodingSection() {
       <SectionHeading icon={Code2}>Coding</SectionHeading>
       <p className="prose-muted-constrained">
         Drupal has paid the rent since 2009 and is still my deepest stack.
-        Lately also TypeScript, React and NodeJS when it fits.
+        Lately I've been into TypeScript, React and NodeJS when it fits.
         OpenSearch/Elasticsearch when something really ought to be searchable.
       </p>
       <p className="prose-muted-constrained">
