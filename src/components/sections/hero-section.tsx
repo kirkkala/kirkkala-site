@@ -9,8 +9,8 @@ export function HeroSection() {
       </h1>
       <p className="text-ink/80 text-sm mt-0">From Helsinki, Finland.</p>
       <p className="prose-muted-lg">
-        Web development and tech delivery at work. Basketball, cycling, nature
-        and a dad when not at work.
+        Web development and tech delivery at work. Basketball, cycling,
+        photography and a dad when not at work.
       </p>
     </section>
   );

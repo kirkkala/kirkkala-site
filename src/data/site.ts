@@ -1,7 +1,7 @@
 export const site = {
   name: "Timo Kirkkala",
   handle: "kirkkala",
-  tagline: "Kirkkala is a nice guy and software engineer.",
+  tagline: "Kirkkala, a software engineer and goofy guy all around.",
   location: "Helsinki",
   links: {
     site: "https://kirkkala.com",

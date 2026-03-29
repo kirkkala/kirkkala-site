@@ -9,7 +9,8 @@ import {
   ContentCardTitle,
 } from "@/components/content-card";
 import { LinkExternal } from "@/components/link-external";
-import { SectionHeading } from "@/components/section-heading";
+import { SectionAccordion } from "@/components/section-accordion";
+import { SectionAccordionHeading } from "@/components/section-heading";
 
 function ProductCard({
   eyebrow,
@@ -46,8 +47,14 @@ function ProductCard({
 
 export function BasketballSection() {
   return (
-    <section id="basketball" className="page-section">
-      <SectionHeading icon={Trophy}>Basketball</SectionHeading>
+    <SectionAccordion
+      id="basketball"
+      summary={
+        <SectionAccordionHeading icon={Trophy}>
+          Basketball
+        </SectionAccordionHeading>
+      }
+    >
       <p className="prose-muted-constrained">
         My daughter plays at{" "}
         <LinkExternal href="https://hnmky.fi" className="link-accent">
@@ -107,6 +114,6 @@ export function BasketballSection() {
           including tracking each team&apos;s first-aid kit status.
         </ProductCard>
       </div>
-    </section>
+    </SectionAccordion>
   );
 }

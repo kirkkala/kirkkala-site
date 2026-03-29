@@ -231,6 +231,8 @@ button:focus-visible {
 
   .main-column {
     @apply flex flex-1 flex-col gap-24 py-16 sm:py-20;
+    /* Scroll runway: short pages can’t scroll far enough for #anchors to clear the sticky header. */
+    min-height: calc(100svh + 70vh);
   }
 
   .hero-block {
@@ -243,6 +245,52 @@ button:focus-visible {
 
   .page-section-loose {
     @apply space-y-8;
+  }
+
+  /* Panel height: grid 0fr → 1fr (custom disclosure; native <details> doesn’t lay out closed body). */
+  .section-accordion {
+    @apply flex scroll-mt-[var(--header-scroll-gap)] flex-col gap-0;
+  }
+
+  .section-accordion-panel-outer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.28s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  .section-accordion[data-open="true"] .section-accordion-panel-outer {
+    grid-template-rows: 1fr;
+  }
+
+  .section-accordion-panel-sizer {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .section-accordion-panel {
+    @apply pt-6;
+  }
+
+  .section-accordion.section-accordion-loose .section-accordion-panel {
+    @apply pt-8;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .section-accordion-panel-outer {
+      transition: none;
+    }
+  }
+
+  .section-accordion-trigger {
+    @apply inline-flex w-full min-w-0 cursor-pointer items-center gap-3 rounded-sm border-0 bg-transparent p-0 text-left font-display text-2xl font-medium text-ink transition-colors duration-200 ease-out hover:text-accent;
+  }
+
+  .section-accordion-trigger:hover .title-section-icon {
+    @apply opacity-100;
+  }
+
+  .section-accordion-trigger .title-section-icon {
+    @apply transition-opacity duration-200 ease-out;
   }
 
   .repos-intro {

@@ -1,12 +1,17 @@
 import { Code2 } from "lucide-react";
 import { LinkExternal } from "@/components/link-external";
-import { SectionHeading } from "@/components/section-heading";
+import { SectionAccordion } from "@/components/section-accordion";
+import { SectionAccordionHeading } from "@/components/section-heading";
 import { site, skills } from "@/data/site";
 
 export function CodingSection() {
   return (
-    <section id="work" className="page-section">
-      <SectionHeading icon={Code2}>Coding</SectionHeading>
+    <SectionAccordion
+      id="work"
+      summary={
+        <SectionAccordionHeading icon={Code2}>Coding</SectionAccordionHeading>
+      }
+    >
       <p className="prose-muted-constrained">
         Drupal has paid the rent since 2009 and is still my deepest stack.
         Lately I've been into TypeScript, React and NodeJS when it fits.
@@ -31,6 +36,6 @@ export function CodingSection() {
           </li>
         ))}
       </ul>
-    </section>
+    </SectionAccordion>
   );
 }

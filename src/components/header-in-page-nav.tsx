@@ -2,7 +2,11 @@
 
 import { ArrowUpToLine } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
+import {
+  closeAllSectionAccordions,
+  openSectionAccordion,
+} from "@/components/section-accordion";
 import { site } from "@/data/site";
 
 const items = [
@@ -12,11 +16,71 @@ const items = [
   { id: "repos", label: "Repos" },
 ] as const;
 
+/** Breathing room so the section title sits just under the header border. */
+const HEADER_SCROLL_BUFFER_PX = 8;
+
+/** Slightly after `.section-accordion-panel-outer` close transition (280ms) so layout is settled before scroll. */
+const ACCORDION_CLOSE_LAYOUT_MS = 300;
+
+/**
+ * Close every section, scroll to the target (collapsed, so the title aligns under the header),
+ * then open that section after scrolling settles.
+ */
+function closeScrollThenOpenSection(id: string) {
+  closeAllSectionAccordions();
+  window.history.replaceState(null, "", `#${id}`);
+
+  const reducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const waitAfterCloseMs = reducedMotion ? 0 : ACCORDION_CLOSE_LAYOUT_MS;
+
+  window.setTimeout(() => {
+    const el = document.getElementById(id);
+    el?.scrollIntoView({ block: "start", behavior: "smooth" });
+
+    let opened = false;
+    const openTarget = () => {
+      if (opened) return;
+      opened = true;
+      openSectionAccordion(id);
+    };
+
+    window.addEventListener("scrollend", openTarget, { once: true });
+    window.setTimeout(openTarget, reducedMotion ? 40 : 420);
+  }, waitAfterCloseMs);
+}
+
 export function HeaderInPageNav() {
   const pathname = usePathname();
   const onHome = pathname === "/";
   const [activeId, setActiveId] = useState<string | null>(null);
   const [pastHero, setPastHero] = useState(!onHome);
+
+  /** Match `--header-scroll-gap` to the real sticky header height for `scroll-margin` / `scroll-padding`. */
+  useLayoutEffect(() => {
+    const header = document.querySelector(".site-header");
+    if (!header) return;
+
+    const apply = () => {
+      const h = Math.ceil(header.getBoundingClientRect().height);
+      document.documentElement.style.setProperty(
+        "--header-scroll-gap",
+        `${h + HEADER_SCROLL_BUFFER_PX}px`,
+      );
+    };
+
+    apply();
+    const ro =
+      typeof ResizeObserver !== "undefined" ? new ResizeObserver(apply) : null;
+    ro?.observe(header);
+    window.addEventListener("resize", apply);
+    return () => {
+      ro?.disconnect();
+      window.removeEventListener("resize", apply);
+      document.documentElement.style.removeProperty("--header-scroll-gap");
+    };
+  }, []);
 
   useEffect(() => {
     const header = document.querySelector(".site-header");
@@ -78,6 +142,9 @@ export function HeaderInPageNav() {
         href={onHome ? "#top" : "/#top"}
         className="nav-link nav-link-inpage nav-link-top"
         tabIndex={pastHero ? undefined : -1}
+        onClick={() => {
+          if (onHome) closeAllSectionAccordions();
+        }}
       >
         <ArrowUpToLine
           className="size-[1.125rem] shrink-0 sm:size-5"
@@ -94,6 +161,11 @@ export function HeaderInPageNav() {
             href={onHome ? `#${item.id}` : `/#${item.id}`}
             className={`nav-link nav-link-inpage${active ? " nav-link-inpage-active" : ""}`}
             aria-current={active ? "location" : undefined}
+            onClick={(e) => {
+              if (!onHome) return;
+              e.preventDefault();
+              closeScrollThenOpenSection(item.id);
+            }}
           >
             {item.label}
           </a>
