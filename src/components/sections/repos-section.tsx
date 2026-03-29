@@ -1,6 +1,6 @@
 import { FolderGit2 } from "lucide-react";
 import { OpensInNewTab } from "@/components/opens-new-tab";
-import { RepoCard } from "@/components/repo-card";
+import { RepoList } from "@/components/repo-list";
 import { SectionHeading } from "@/components/section-heading";
 import { site } from "@/data/site";
 import { getPublicRepos } from "@/lib/github";
@@ -45,13 +45,7 @@ export async function ReposSection() {
           </a>
         </p>
       ) : repos.length > 0 ? (
-        <ul className="repo-grid">
-          {repos.map((repo) => (
-            <li key={repo.id}>
-              <RepoCard repo={repo} />
-            </li>
-          ))}
-        </ul>
+        <RepoList repos={repos} />
       ) : (
         <p className="empty-panel">
           Nothing to list after filtering — either you’re incredibly minimalist

@@ -233,6 +233,24 @@ button:focus-visible {
     @apply grid gap-4 sm:grid-cols-2;
   }
 
+  .repo-load-more {
+    @apply mt-6 w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm font-medium text-ink shadow-sm transition-[border-color,box-shadow,opacity] duration-200 ease-out cursor-pointer;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .repo-load-more:hover:not(:disabled):not([aria-busy="true"]) {
+      @apply border-accent/40 shadow-md;
+    }
+
+    .repo-load-more[aria-busy="true"] {
+      @apply animate-pulse;
+    }
+  }
+
+  .repo-load-more:disabled {
+    @apply cursor-wait;
+  }
+
   .footer-inner {
     @apply flex flex-col gap-2 py-10 text-sm text-muted sm:flex-row sm:items-center sm:justify-between;
   }
