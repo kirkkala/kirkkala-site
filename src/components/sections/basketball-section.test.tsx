@@ -33,7 +33,7 @@ describe("BasketballSection product cards", () => {
       "https://github.com/kirkkala/elsa-myclub",
     );
     expect(elsaGithub).toHaveAttribute("target", "_blank");
-    expect(elsaGithub).toHaveAttribute("rel", "noopener noreferrer");
+    expect(elsaGithub).toHaveAttribute("rel", "noopener");
 
     expect(
       screen.getByRole("link", {

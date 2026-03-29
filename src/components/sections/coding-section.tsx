@@ -1,4 +1,5 @@
 import { Code2 } from "lucide-react";
+import { LinkExternal } from "@/components/link-external";
 import { SectionHeading } from "@/components/section-heading";
 import { site, skills } from "@/data/site";
 
@@ -18,14 +19,9 @@ export function CodingSection() {
         favorite.
       </p>
       <p className="prose-muted-constrained">
-        <a
-          href={site.links.linkedin}
-          className="link-accent"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <LinkExternal href={site.links.linkedin} className="link-accent">
           LinkedIn
-        </a>{" "}
+        </LinkExternal>{" "}
         has the CV-shaped version, don't expect updates too often there.
       </p>
       <ul className="flex flex-wrap gap-2 pt-2">

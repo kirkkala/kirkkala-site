@@ -1,9 +1,9 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
-import { OpensInNewTab } from "@/components/opens-new-tab";
+import { LinkExternal } from "@/components/link-external";
 
 type ContentCardLinkProps = Omit<
   ComponentPropsWithoutRef<"a">,
-  "className" | "children"
+  "className" | "children" | "rel" | "target"
 > & {
   children: ReactNode;
   className?: string;
@@ -13,21 +13,17 @@ type ContentCardLinkProps = Omit<
 export function ContentCardLink({
   children,
   className = "",
-  target = "_blank",
-  rel = "noopener noreferrer",
   ...props
 }: ContentCardLinkProps) {
   return (
-    <a
+    <LinkExternal
       className={["content-card", "content-card-link", "group", className]
         .filter(Boolean)
         .join(" ")}
-      target={target}
-      rel={rel}
       {...props}
     >
       {children}
-    </a>
+    </LinkExternal>
   );
 }
 
@@ -95,11 +91,9 @@ export function ContentCardExternalLink({
 }) {
   return (
     <p className="content-card-external-link">
-      <a
+      <LinkExternal
         href={href}
         className="link-accent inline-flex items-center gap-1.5"
-        target="_blank"
-        rel="noopener noreferrer"
       >
         {icon ? (
           <span
@@ -110,8 +104,7 @@ export function ContentCardExternalLink({
           </span>
         ) : null}
         {children}
-        <OpensInNewTab />
-      </a>
+      </LinkExternal>
     </p>
   );
 }

@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
-import { OpensInNewTab } from "@/components/opens-new-tab";
+import { LinkExternal } from "@/components/link-external";
 
-describe("OpensInNewTab", () => {
+describe("LinkExternal", () => {
   it("renders a screen-reader-only new-tab hint", () => {
-    render(<OpensInNewTab />);
+    render(<LinkExternal href="https://example.com">Example</LinkExternal>);
     expect(
       screen.getByText("(opens in new tab)", { exact: false }),
     ).toBeInTheDocument();

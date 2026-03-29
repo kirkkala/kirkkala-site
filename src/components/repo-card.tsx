@@ -8,7 +8,6 @@ import {
   ContentCardStars,
   ContentCardTitle,
 } from "@/components/content-card";
-import { OpensInNewTab } from "@/components/opens-new-tab";
 import type { GitHubRepo } from "@/lib/github";
 
 export function RepoCard({ repo }: { repo: GitHubRepo }) {
@@ -33,7 +32,6 @@ export function RepoCard({ repo }: { repo: GitHubRepo }) {
       {repo.language ? (
         <ContentCardLang>{repo.language}</ContentCardLang>
       ) : null}
-      <OpensInNewTab />
     </ContentCardLink>
   );
 }

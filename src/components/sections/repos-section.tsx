@@ -1,5 +1,5 @@
 import { FolderGit2 } from "lucide-react";
-import { OpensInNewTab } from "@/components/opens-new-tab";
+import { LinkExternal } from "@/components/link-external";
 import { RepoList } from "@/components/repo-list";
 import { SectionHeading } from "@/components/section-heading";
 import { site } from "@/data/site";
@@ -34,15 +34,9 @@ export async function ReposSection() {
       {loadError ? (
         <p className="empty-panel" role="status">
           {loadError}{" "}
-          <a
-            href={site.links.github}
-            className="link-accent"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <LinkExternal href={site.links.github} className="link-accent">
             View them on GitHub
-            <OpensInNewTab />
-          </a>
+          </LinkExternal>
         </p>
       ) : repos.length > 0 ? (
         <RepoList repos={repos} />
@@ -50,15 +44,9 @@ export async function ReposSection() {
         <p className="empty-panel">
           Nothing to list after filtering — either you’re incredibly minimalist
           or the API sent an empty shelf.{" "}
-          <a
-            href={site.links.github}
-            className="link-accent"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <LinkExternal href={site.links.github} className="link-accent">
             View them on GitHub
-            <OpensInNewTab />
-          </a>
+          </LinkExternal>
         </p>
       )}
     </section>

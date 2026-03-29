@@ -8,7 +8,7 @@ import {
   ContentCardEyebrow,
   ContentCardTitle,
 } from "@/components/content-card";
-import { OpensInNewTab } from "@/components/opens-new-tab";
+import { LinkExternal } from "@/components/link-external";
 import { SectionHeading } from "@/components/section-heading";
 
 function ProductCard({
@@ -50,15 +50,9 @@ export function BasketballSection() {
       <SectionHeading icon={Trophy}>Basketball</SectionHeading>
       <p className="prose-muted-constrained">
         My daughter plays at{" "}
-        <a
-          href="https://hnmky.fi"
-          className="link-accent"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <LinkExternal href="https://hnmky.fi" className="link-accent">
           HNMKY
-          <OpensInNewTab />
-        </a>{" "}
+        </LinkExternal>{" "}
         and I play too, since 2025. Post ice-hockey, post floorball, post
         soccer, so that basketball court still feels suspiciously new.
       </p>
@@ -88,25 +82,13 @@ export function BasketballSection() {
           ]}
         >
           A tool to convert the association&apos;s{" "}
-          <a
-            href="https://elsa.basket.fi"
-            className="link-accent"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <LinkExternal href="https://elsa.basket.fi" className="link-accent">
             eLSA
-            <OpensInNewTab />
-          </a>{" "}
+          </LinkExternal>{" "}
           excel sheets into{" "}
-          <a
-            href="https://www.myclub.fi/"
-            className="link-accent"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <LinkExternal href="https://www.myclub.fi/" className="link-accent">
             MyClub
-            <OpensInNewTab />
-          </a>{" "}
+          </LinkExternal>{" "}
           compatible format. Saves hours of manual work in the start of every
           season.
         </ProductCard>

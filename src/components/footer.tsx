@@ -1,5 +1,5 @@
 import { GitHubIcon, LinkedInIcon } from "@/components/brand-icons";
-import { OpensInNewTab } from "@/components/opens-new-tab";
+import { LinkExternal } from "@/components/link-external";
 import { site } from "@/data/site";
 
 function linkPath(href: string) {
@@ -21,28 +21,22 @@ export function Footer() {
           © {new Date().getFullYear()} {site.name}
         </p>
         <nav aria-label="Profiles" className="footer-nav">
-          <a
+          <LinkExternal
             href={site.links.github}
             className="nav-link nav-link-footer gap-1.5"
-            target="_blank"
-            rel="noopener noreferrer"
             aria-label={`${site.name} on GitHub`}
           >
             <GitHubIcon className="size-4 shrink-0 opacity-90" />
             {githubPath}
-            <OpensInNewTab />
-          </a>
-          <a
+          </LinkExternal>
+          <LinkExternal
             href={site.links.linkedin}
             className="nav-link nav-link-footer gap-1.5"
-            target="_blank"
-            rel="noopener noreferrer"
             aria-label={`${site.name} on LinkedIn`}
           >
             <LinkedInIcon className="size-4 shrink-0 opacity-90" />
             {linkedinPath}
-            <OpensInNewTab />
-          </a>
+          </LinkExternal>
         </nav>
       </div>
     </footer>
