@@ -5,7 +5,7 @@ import { photography } from "@/data/site";
 
 export function PhotographySection() {
   return (
-    <section id="photos">
+    <section id="film">
       <SectionHeading icon={Aperture}>Analogue days</SectionHeading>
       <p className="prose-muted-constrained mt-3">
         From back when the darkroom saw more of me than the terminal. Mostly

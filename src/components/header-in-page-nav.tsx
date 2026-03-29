@@ -8,7 +8,7 @@ import { site } from "@/data/site";
 const items = [
   { id: "work", label: "Code" },
   { id: "basketball", label: "Hoops" },
-  { id: "photos", label: "Film" },
+  { id: "film", label: "Film" },
   { id: "repos", label: "Repos" },
 ] as const;
 
