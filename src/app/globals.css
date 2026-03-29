@@ -3,6 +3,8 @@
 :root {
   /* Sticky header clearance for #anchors (must stay ≥ visual header height) */
   --header-scroll-gap: 4.5rem;
+  /* Fixed footer bar — keep in sync with .site-footer / .footer-inner vertical size */
+  --footer-fixed-height: 3.25rem;
   --paper: #f6f3ed;
   --ink: #1a1714;
   /* ≥4.5:1 on paper for body-sized text */
@@ -230,9 +232,24 @@ button:focus-visible {
   }
 
   .main-column {
-    @apply flex flex-1 flex-col gap-24 py-16 sm:py-20;
+    @apply flex flex-1 flex-col gap-24 pt-16 sm:pt-20;
+    padding-bottom: calc(
+      4rem +
+      var(--footer-fixed-height) +
+      env(safe-area-inset-bottom, 0px)
+    );
     /* Scroll runway: short pages can’t scroll far enough for #anchors to clear the sticky header. */
     min-height: calc(100svh + 70vh);
+  }
+
+  @media (min-width: 640px) {
+    .main-column {
+      padding-bottom: calc(
+        5rem +
+        var(--footer-fixed-height) +
+        env(safe-area-inset-bottom, 0px)
+      );
+    }
   }
 
   .hero-block {
@@ -320,7 +337,7 @@ button:focus-visible {
   }
 
   .footer-inner {
-    @apply flex flex-col gap-2 py-10 text-sm text-muted sm:flex-row sm:items-center sm:justify-between;
+    @apply flex flex-col gap-1 py-2 text-xs text-muted sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:py-2.5;
   }
 
   .footer-nav {
@@ -464,7 +481,17 @@ button:focus-visible {
   }
 
   .site-footer {
-    @apply border-t border-border bg-surface-muted;
+    @apply fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-surface-muted/95 backdrop-blur-sm;
+    box-sizing: border-box;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    min-height: calc(
+      var(--footer-fixed-height) +
+      env(safe-area-inset-bottom, 0px)
+    );
+  }
+
+  .site-footer .footer-nav .nav-link {
+    @apply min-h-0 py-0.5;
   }
 }
 
