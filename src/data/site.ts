@@ -59,12 +59,12 @@ export const photography: readonly {
   },
   {
     src: "/photography/america-mittens-color.jpg",
-    alt: "Mittens, Monument Valley America",
+    alt: "Mittens, Monument Valley America. Picture in color.",
     caption: "Monument Valley, Utah — Medium format film",
   },
   {
     src: "/photography/america-mittens.jpg",
-    alt: "Mittens, Monument Valley America",
+    alt: "Mittens, Monument Valley America. Picture in black and white.",
     caption: "Monument Valley, Utah — Medium format film",
   },
   {
