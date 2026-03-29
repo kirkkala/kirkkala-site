@@ -1,4 +1,5 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import { OpensInNewTab } from "@/components/opens-new-tab";
 
 type ContentCardLinkProps = Omit<
   ComponentPropsWithoutRef<"a">,
@@ -77,6 +78,40 @@ export function ContentCardDescription({
   return (
     <p className={["content-card-desc", className].filter(Boolean).join(" ")}>
       {children}
+    </p>
+  );
+}
+
+/** External link row below the description (repo, demo, docs, etc.). */
+export function ContentCardExternalLink({
+  href,
+  children = "GitHub",
+  icon,
+}: {
+  href: string;
+  children?: ReactNode;
+  /** Decorative icon before the label (e.g. GitHub, globe). */
+  icon?: ReactNode;
+}) {
+  return (
+    <p className="content-card-external-link">
+      <a
+        href={href}
+        className="link-accent inline-flex items-center gap-1.5"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {icon ? (
+          <span
+            className="inline-flex size-4 shrink-0 items-center justify-center text-muted [&>*]:size-full"
+            aria-hidden
+          >
+            {icon}
+          </span>
+        ) : null}
+        {children}
+        <OpensInNewTab />
+      </a>
     </p>
   );
 }

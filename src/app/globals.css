@@ -299,10 +299,6 @@ button:focus-visible {
     @apply rounded-sm text-accent underline underline-offset-[0.2em] decoration-accent/45 decoration-1 group-hover:decoration-accent;
   }
 
-  .content-card-block .content-card-title .link-accent {
-    @apply font-medium;
-  }
-
   .content-card-fork {
     @apply ml-1.5 text-xs font-normal text-muted no-underline;
   }
@@ -321,6 +317,18 @@ button:focus-visible {
 
   .content-card-block .content-card-desc .link-accent {
     @apply text-sm font-sans font-normal;
+  }
+
+  .content-card-external-links {
+    @apply mt-3 flex flex-col gap-2;
+  }
+
+  .content-card-external-link {
+    @apply m-0 text-sm;
+  }
+
+  .content-card-block .content-card-external-link .link-accent {
+    @apply font-sans font-normal;
   }
 
   .content-card-desc-empty {

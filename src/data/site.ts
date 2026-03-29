@@ -10,15 +10,6 @@ export const site = {
   },
 } as const;
 
-/** HNMKY / youth basketball tooling — linked from the Basketball section */
-export const basketballLinks = {
-  club: "https://hnmky.fi",
-  elsaProduct: "https://elsa.basket.fi",
-  myclub: "https://www.myclub.fi/",
-  elsaMyclub: "https://github.com/kirkkala/elsa-myclub",
-  homegameOfficials: "https://github.com/kirkkala/homegame-officials",
-} as const;
-
 export const skills = [
   "Drupal",
   "PHP",

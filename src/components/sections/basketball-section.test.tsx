@@ -1,23 +1,16 @@
 import { render, screen } from "@testing-library/react";
 import { BasketballSection } from "@/components/sections/basketball-section";
-import { basketballLinks } from "@/data/site";
 
 describe("BasketballSection product cards", () => {
-  it("renders two product titles as external links with repo-style content cards", () => {
+  it("renders product titles as headings and external links in the card footer", () => {
     render(<BasketballSection />);
 
-    const elsa = screen.getByRole("link", { name: /eLSA → MyClub/i });
-    expect(elsa).toHaveAttribute("href", basketballLinks.elsaMyclub);
-    expect(elsa).toHaveAttribute("target", "_blank");
-    expect(elsa).toHaveAttribute("rel", "noopener noreferrer");
-
-    const officials = screen.getByRole("link", {
-      name: /Home game officials/i,
-    });
-    expect(officials).toHaveAttribute(
-      "href",
-      basketballLinks.homegameOfficials,
-    );
+    expect(
+      screen.getByRole("heading", { level: 3, name: /eLSA → MyClub/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { level: 3, name: /Home game officials/i }),
+    ).toBeInTheDocument();
 
     expect(
       screen.getByText("Club tooling · converter", { exact: true }),
@@ -25,6 +18,28 @@ describe("BasketballSection product cards", () => {
     expect(
       screen.getByText("Club tooling · operations", { exact: true }),
     ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("link", {
+        name: /elsa-myclub\.hnmky\.fi \(opens in new tab\)/i,
+      }),
+    ).toHaveAttribute("href", "https://elsa-myclub.hnmky.fi/");
+
+    const elsaGithub = screen.getByRole("link", {
+      name: /kirkkala\/elsa-myclub \(opens in new tab\)/i,
+    });
+    expect(elsaGithub).toHaveAttribute(
+      "href",
+      "https://github.com/kirkkala/elsa-myclub",
+    );
+    expect(elsaGithub).toHaveAttribute("target", "_blank");
+    expect(elsaGithub).toHaveAttribute("rel", "noopener noreferrer");
+
+    expect(
+      screen.getByRole("link", {
+        name: /kirkkala\/homegame-officials \(opens in new tab\)/i,
+      }),
+    ).toHaveAttribute("href", "https://github.com/kirkkala/homegame-officials");
   });
 
   it("includes nested links to eLSA and MyClub in the first product blurb", () => {
@@ -32,10 +47,10 @@ describe("BasketballSection product cards", () => {
 
     expect(
       screen.getByRole("link", { name: "eLSA (opens in new tab)" }),
-    ).toHaveAttribute("href", basketballLinks.elsaProduct);
+    ).toHaveAttribute("href", "https://elsa.basket.fi");
 
     expect(
       screen.getByRole("link", { name: "MyClub (opens in new tab)" }),
-    ).toHaveAttribute("href", basketballLinks.myclub);
+    ).toHaveAttribute("href", "https://www.myclub.fi/");
   });
 });
