@@ -5,6 +5,20 @@ import { SectionHeading } from "@/components/section-heading";
 import { site } from "@/data/site";
 import { getPublicRepos } from "@/lib/github";
 
+/** Suspense fallback while GitHub is fetched — keeps the rest of the page streaming. */
+export function ReposSectionSkeleton() {
+  return (
+    <section
+      id="repos"
+      className="page-section-loose"
+      aria-busy="true"
+      aria-live="polite"
+    >
+      <p className="prose-muted animate-pulse">Loading repositories…</p>
+    </section>
+  );
+}
+
 export async function ReposSection() {
   const { repos, loadError } = await getPublicRepos(site.handle);
 

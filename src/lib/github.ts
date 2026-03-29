@@ -23,6 +23,18 @@ export const githubRestJsonHeaders = {
 export async function getPublicRepos(
   username: string,
 ): Promise<PublicReposResult> {
+  // Dev-only: set REPO_FETCH_DELAY_MS=3000 in `.env.local` to see the repos Suspense
+  // fallback.
+  if (
+    process.env.NODE_ENV === "development" &&
+    process.env.REPO_FETCH_DELAY_MS
+  ) {
+    const ms = Number(process.env.REPO_FETCH_DELAY_MS);
+    if (Number.isFinite(ms) && ms > 0) {
+      await new Promise((r) => setTimeout(r, ms));
+    }
+  }
+
   const url = `https://api.github.com/users/${encodeURIComponent(username)}/repos?per_page=50&sort=updated&type=owner`;
 
   let res: Response;

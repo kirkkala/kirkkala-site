@@ -7,8 +7,8 @@
 # next.js
 /.next/
 
-# production
-/build
+# local env overrides
+.env*.local
 
 # misc
 .DS_Store

@@ -129,3 +129,47 @@ describe("getPublicRepos", () => {
     expect(result).toEqual({ repos: [], loadError: null });
   });
 });
+
+describe("getPublicRepos REPO_FETCH_DELAY_MS (dev-only)", () => {
+  const originalFetch = global.fetch;
+  const originalNodeEnv = process.env.NODE_ENV;
+  const originalDelayMs = process.env.REPO_FETCH_DELAY_MS;
+
+  afterEach(() => {
+    global.fetch = originalFetch;
+    process.env.NODE_ENV = originalNodeEnv;
+    if (originalDelayMs === undefined) {
+      delete process.env.REPO_FETCH_DELAY_MS;
+    } else {
+      process.env.REPO_FETCH_DELAY_MS = originalDelayMs;
+    }
+    jest.useRealTimers();
+  });
+
+  it("does not delay fetch when NODE_ENV is not development", async () => {
+    process.env.NODE_ENV = "test";
+    process.env.REPO_FETCH_DELAY_MS = "99999";
+    jest.useFakeTimers();
+    const fetchMock = jest.fn().mockResolvedValue(mockResponse([]));
+    global.fetch = fetchMock;
+
+    const done = getPublicRepos("u");
+    await expect(done).resolves.toEqual({ repos: [], loadError: null });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("waits REPO_FETCH_DELAY_MS before fetch when NODE_ENV is development", async () => {
+    process.env.NODE_ENV = "development";
+    process.env.REPO_FETCH_DELAY_MS = "100";
+    jest.useFakeTimers();
+    const fetchMock = jest.fn().mockResolvedValue(mockResponse([]));
+    global.fetch = fetchMock;
+
+    const pending = getPublicRepos("u");
+    expect(fetchMock).not.toHaveBeenCalled();
+
+    await jest.advanceTimersByTimeAsync(100);
+    await expect(pending).resolves.toEqual({ repos: [], loadError: null });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+});
