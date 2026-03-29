@@ -121,8 +121,8 @@ export function BasketballSection() {
             },
           ]}
         >
-          We app for home-game officials assignments across HNMKY clubs — including
-          tracking each team&apos;s first-aid kit status.
+          We app for home-game officials assignments across HNMKY clubs —
+          including tracking each team&apos;s first-aid kit status.
         </ProductCard>
       </div>
     </section>

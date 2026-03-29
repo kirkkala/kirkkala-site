@@ -35,7 +35,7 @@ export async function getPublicRepos(
     }
   }
 
-  const url = `https://api.github.com/users/${encodeURIComponent(username)}/repos?per_page=50&sort=updated&type=owner`;
+  const url = `https://api.github.com/users/${encodeURIComponent(username)}/repos?per_page=100&sort=updated&type=owner`;
 
   let res: Response;
   try {
@@ -80,8 +80,7 @@ export async function getPublicRepos(
   const repos = (data as GitHubRepo[])
     .filter((r) => !r.archived)
     // Stargazers = those who starred the repo on GitHub, sorting by the most-starred first for the grid.
-    .sort((a, b) => b.stargazers_count - a.stargazers_count)
-    .slice(0, 12);
+    .sort((a, b) => b.stargazers_count - a.stargazers_count);
 
   return { repos, loadError: null };
 }

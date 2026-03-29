@@ -31,7 +31,7 @@ describe("getPublicRepos", () => {
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(fetchMock).toHaveBeenCalledWith(
-      "https://api.github.com/users/some-user/repos?per_page=50&sort=updated&type=owner",
+      "https://api.github.com/users/some-user/repos?per_page=100&sort=updated&type=owner",
       expect.objectContaining({
         next: { revalidate: 3600 },
         headers: githubRestJsonHeaders,
@@ -46,12 +46,12 @@ describe("getPublicRepos", () => {
     await getPublicRepos("a/b");
 
     expect(fetchMock).toHaveBeenCalledWith(
-      `https://api.github.com/users/${encodeURIComponent("a/b")}/repos?per_page=50&sort=updated&type=owner`,
+      `https://api.github.com/users/${encodeURIComponent("a/b")}/repos?per_page=100&sort=updated&type=owner`,
       expect.any(Object),
     );
   });
 
-  it("filters archived repos, sorts by stars descending, and returns at most 12", async () => {
+  it("filters archived repos and sorts by stars descending", async () => {
     const repos = Array.from({ length: 15 }, (_, i) => ({
       id: i,
       name: `repo-${i}`,
@@ -68,7 +68,8 @@ describe("getPublicRepos", () => {
     const { repos: out, loadError } = await getPublicRepos("u");
 
     expect(loadError).toBeNull();
-    expect(out).toHaveLength(12);
+    // 15 mock repos − 2 archived = 13 shown
+    expect(out).toHaveLength(13);
     expect(out.map((r) => r.name)).not.toContain("repo-3");
     expect(out.map((r) => r.name)).not.toContain("repo-7");
     expect(out[0]?.stargazers_count).toBe(14);
