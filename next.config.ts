@@ -7,8 +7,10 @@ const nextConfig: NextConfig = {
   },
   images: {
     // When developing, Sharp-backed optimization for many large originals can peg CPU/RAM.
-    // Hence optimization only for production builds.
     unoptimized: process.env.NODE_ENV === "development",
+    formats: ["image/avif", "image/webp"],
+    // Layout is max-w-3xl (~768px); thumbs are ~1/3 width — skip 2K/4K srcset buckets.
+    deviceSizes: [384, 640, 750, 828, 1080, 1200, 1920],
   },
 };
 

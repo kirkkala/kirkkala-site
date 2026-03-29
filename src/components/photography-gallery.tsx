@@ -18,9 +18,6 @@ type PhotographyGalleryProps = {
   photos: readonly GalleryPhoto[];
 };
 
-/** First ~3 rows at 3 columns — avoids LCP on a still-lazy image mid-grid. */
-const PRIORITY_IMAGE_COUNT = 9;
-
 export function PhotographyGallery({ photos }: PhotographyGalleryProps) {
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
@@ -57,8 +54,8 @@ export function PhotographyGallery({ photos }: PhotographyGalleryProps) {
                   alt={photo.alt}
                   fill
                   className="object-cover object-center"
-                  sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
-                  priority={i < PRIORITY_IMAGE_COUNT}
+                  sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 232px"
+                  quality={72}
                 />
               </div>
             </button>
