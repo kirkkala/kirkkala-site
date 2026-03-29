@@ -47,8 +47,75 @@ export const photography: readonly {
     caption: "Nuuksio — 35mm",
   },
   {
+    src: "/photography/ireland-tower.jpg",
+    alt: "O'Brien's Tower, Ireland",
+    caption: "O'Brien's Tower, Ireland — Medium format film",
+  },
+  {
+    src: "/photography/iceland-mount.jpg",
+    alt: "Iceland Mount",
+    caption: "Iceland — Medium format film",
+  },
+  {
+    src: "/photography/iceland-skogafoss.jpg",
+    alt: "Skógafoss, Iceland",
+    caption: "Skógafoss, Iceland — Medium format film",
+  },
+  {
     src: "/photography/new-york.jpg",
     alt: "New York City",
-    caption: "New York — Medium format",
+    caption: "New York — Medium format film",
   },
-];
+  {
+    src: "/photography/america-mittens-color.jpg",
+    alt: "Mittens, Monument Valley America",
+    caption: "Monument Valley, Utah — Medium format film",
+  },
+  {
+    src: "/photography/america-mittens.jpg",
+    alt: "Mittens, Monument Valley America",
+    caption: "Monument Valley, Utah — Medium format film",
+  },
+  {
+    src: "/photography/death-valley-tree.jpg",
+    alt: "Tree in Death Valley America",
+    caption: "Death Valley, California — Medium format film",
+  },
+  {
+    src: "/photography/murica.jpg",
+    alt: "Murica",
+    caption: "'Murica — Medium format film",
+  },
+  {
+    src: "/photography/sf-hawkhill.jpg",
+    alt: "San Francisco Hawkhill",
+    caption:
+      "Golden Gate from Hawk Hill, San Francisco, California — Medium format film",
+  },
+  {
+    src: "/photography/yosemite.jpg",
+    alt: "Yosemite National Park",
+    caption: "Yosemite National Park, California — Medium format film",
+  },
+  {
+    src: "/photography/panama-basketball.jpg",
+    alt: "Basketball court in Panama",
+    caption: "Isla Bastimentos, Panama — Medium format film",
+  },
+  {
+    src: "/photography/pinhole-hasselblad.jpg",
+    alt: "Pinhole camera",
+    caption:
+      "My Hasselblad and a cardboard pinhole camera replica I made myself.",
+  },
+  {
+    src: "/photography/pinhole-greenwich.jpg",
+    alt: "Greenwich Observatory",
+    caption: "Greenwich Observatory, London — Pinhole photography",
+  },
+  {
+    src: "/photography/pinhole-mylllyjarvi.jpg",
+    alt: "Mylllyjärvi",
+    caption: "Mylllyjärvi, Finland — Pinhole photography",
+  },
+] as const;
