@@ -1,33 +1,39 @@
+import {
+  ContentCardDescription,
+  ContentCardDescriptionEmpty,
+  ContentCardFork,
+  ContentCardLang,
+  ContentCardLink,
+  ContentCardRow,
+  ContentCardStars,
+  ContentCardTitle,
+} from "@/components/content-card";
 import { OpensInNewTab } from "@/components/opens-new-tab";
 import type { GitHubRepo } from "@/lib/github";
 
 export function RepoCard({ repo }: { repo: GitHubRepo }) {
   return (
-    <a
-      href={repo.html_url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="repo-card group"
-    >
-      <div className="repo-card-row">
-        <h3 className="repo-card-title">
+    <ContentCardLink href={repo.html_url}>
+      <ContentCardRow>
+        <ContentCardTitle>
           {repo.name}
-          {repo.fork ? <span className="repo-card-fork">fork</span> : null}
-        </h3>
+          {repo.fork ? <ContentCardFork>fork</ContentCardFork> : null}
+        </ContentCardTitle>
         {repo.stargazers_count > 0 ? (
-          <span className="repo-card-stars">
-            <span className="sr-only">{repo.stargazers_count} stars</span>
-            <span aria-hidden="true">★ {repo.stargazers_count}</span>
-          </span>
+          <ContentCardStars count={repo.stargazers_count} />
         ) : null}
-      </div>
+      </ContentCardRow>
       {repo.description ? (
-        <p className="repo-card-desc">{repo.description}</p>
+        <ContentCardDescription>{repo.description}</ContentCardDescription>
       ) : (
-        <p className="repo-card-desc-empty">No description</p>
+        <ContentCardDescriptionEmpty>
+          No description
+        </ContentCardDescriptionEmpty>
       )}
-      {repo.language ? <p className="repo-card-lang">{repo.language}</p> : null}
+      {repo.language ? (
+        <ContentCardLang>{repo.language}</ContentCardLang>
+      ) : null}
       <OpensInNewTab />
-    </a>
+    </ContentCardLink>
   );
 }

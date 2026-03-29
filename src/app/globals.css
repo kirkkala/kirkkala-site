@@ -143,10 +143,6 @@ button:focus-visible {
     pointer-events: auto;
   }
 
-  .nav-link-header-external {
-    @apply text-sm text-accent;
-  }
-
   .nav-link-footer {
     @apply -me-1 text-sm hover:text-ink;
   }
@@ -233,10 +229,6 @@ button:focus-visible {
     @apply space-y-3;
   }
 
-  .skill-list {
-    @apply flex flex-wrap gap-2 pt-2;
-  }
-
   .repo-grid {
     @apply grid gap-4 sm:grid-cols-2;
   }
@@ -253,12 +245,72 @@ button:focus-visible {
     @apply rounded-full border border-border bg-surface px-3 py-1 text-sm text-ink;
   }
 
-  .basketball-tools {
-    @apply mt-2 max-w-2xl list-none space-y-2 ps-0;
+  .basketball-products {
+    @apply mt-2 grid w-full grid-cols-1 gap-4 sm:grid-cols-2;
   }
 
-  .basketball-tools li {
-    @apply leading-relaxed;
+  .content-card {
+    @apply block w-full min-w-0 rounded-lg border border-border bg-surface p-4 text-left shadow-sm transition-[border-color,box-shadow] duration-300 ease-out;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .content-card-link:hover,
+    .content-card-block:hover {
+      @apply border-accent/40 shadow-md;
+    }
+  }
+
+  .content-card-row {
+    @apply flex min-w-0 items-start justify-between gap-2;
+  }
+
+  .content-card-eyebrow {
+    @apply mb-2 inline-block text-xs font-medium uppercase tracking-[0.12em] text-accent;
+  }
+
+  .content-card-title {
+    @apply m-0 font-medium leading-snug text-ink;
+  }
+
+  .content-card-row .content-card-title {
+    @apply min-w-0 flex-1;
+  }
+
+  /* Match .link-accent (club tooling titles); card <a> is the hover target. */
+  .content-card-link .content-card-title {
+    @apply rounded-sm text-accent underline underline-offset-[0.2em] decoration-accent/45 decoration-1 group-hover:decoration-accent;
+  }
+
+  .content-card-block .content-card-title .link-accent {
+    @apply font-medium;
+  }
+
+  .content-card-fork {
+    @apply ml-1.5 text-xs font-normal text-muted no-underline;
+  }
+
+  .content-card-stars {
+    @apply shrink-0 text-xs tabular-nums text-muted;
+  }
+
+  .content-card-desc {
+    @apply mt-2 text-sm leading-relaxed text-muted;
+  }
+
+  .content-card-link .content-card-desc {
+    @apply line-clamp-2;
+  }
+
+  .content-card-block .content-card-desc .link-accent {
+    @apply text-sm font-sans font-normal;
+  }
+
+  .content-card-desc-empty {
+    @apply mt-2 text-sm italic text-muted;
+  }
+
+  .content-card-lang {
+    @apply mt-3 font-mono text-xs text-muted;
   }
 
   .empty-panel {
@@ -319,38 +371,6 @@ button:focus-visible {
 
   .site-footer {
     @apply border-t border-border bg-surface-muted;
-  }
-
-  .repo-card {
-    @apply block rounded-lg border border-border bg-surface p-4 shadow-sm transition-all hover:border-accent/40 hover:shadow-md;
-  }
-
-  .repo-card-row {
-    @apply flex items-start justify-between gap-2;
-  }
-
-  .repo-card-title {
-    @apply font-medium text-ink group-hover:text-accent;
-  }
-
-  .repo-card-fork {
-    @apply ml-1.5 text-xs font-normal text-muted;
-  }
-
-  .repo-card-stars {
-    @apply shrink-0 text-xs tabular-nums text-muted;
-  }
-
-  .repo-card-desc {
-    @apply mt-2 line-clamp-2 text-sm leading-relaxed text-muted;
-  }
-
-  .repo-card-desc-empty {
-    @apply mt-2 text-sm italic text-muted;
-  }
-
-  .repo-card-lang {
-    @apply mt-3 font-mono text-xs text-muted;
   }
 }
 
