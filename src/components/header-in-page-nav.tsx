@@ -19,8 +19,38 @@ const items = [
 /** Breathing room so the section title sits just under the header border. */
 const HEADER_SCROLL_BUFFER_PX = 8;
 
+/**
+ * Scroll-spy band: section `#id` top must pass within this distance below the header gap line
+ * to count as “current”. ~matches sticky title row height so nav tracks before the next section.
+ */
+const SCROLL_SPY_SECTION_TOP_SLOP_PX = 56;
+
 /** Slightly after `.section-accordion-panel-outer` close transition (280ms) so layout is settled before scroll. */
 const ACCORDION_CLOSE_LAYOUT_MS = 300;
+
+/**
+ * Same value as `--header-scroll-gap` (header height + buffer). Using this for the active-link
+ * threshold avoids `scrollPaddingTop` parsing as 0 in some engines when it comes from `var()`.
+ */
+function readScrollGapPx(): number {
+  const root = document.documentElement;
+  const fromVar = getComputedStyle(root)
+    .getPropertyValue("--header-scroll-gap")
+    .trim();
+  if (fromVar) {
+    const n = Number.parseFloat(fromVar);
+    if (Number.isFinite(n) && n > 0) return n;
+  }
+  const fromScrollPadding = Number.parseFloat(
+    getComputedStyle(root).scrollPaddingTop,
+  );
+  if (Number.isFinite(fromScrollPadding) && fromScrollPadding > 0) {
+    return fromScrollPadding;
+  }
+  const header = document.querySelector(".site-header");
+  const h = header?.getBoundingClientRect().height ?? 0;
+  return Math.ceil(h) + HEADER_SCROLL_BUFFER_PX;
+}
 
 /**
  * Close every section, scroll to the target (collapsed, so the title aligns under the header),
@@ -64,6 +94,7 @@ export function HeaderInPageNav() {
 
     const apply = () => {
       const h = Math.ceil(header.getBoundingClientRect().height);
+      document.documentElement.style.setProperty("--header-height", `${h}px`);
       document.documentElement.style.setProperty(
         "--header-scroll-gap",
         `${h + HEADER_SCROLL_BUFFER_PX}px`,
@@ -78,6 +109,7 @@ export function HeaderInPageNav() {
     return () => {
       ro?.disconnect();
       window.removeEventListener("resize", apply);
+      document.documentElement.style.removeProperty("--header-height");
       document.documentElement.style.removeProperty("--header-scroll-gap");
     };
   }, []);
@@ -110,11 +142,7 @@ export function HeaderInPageNav() {
         }
       }
 
-      const pad = parseFloat(
-        getComputedStyle(document.documentElement).scrollPaddingTop,
-      );
-      const band =
-        Math.max(header.getBoundingClientRect().bottom, pad || 0) + 2;
+      const band = readScrollGapPx() + SCROLL_SPY_SECTION_TOP_SLOP_PX;
       let id: string | null = null;
       for (const x of items) {
         const el = document.getElementById(x.id);
@@ -164,6 +192,7 @@ export function HeaderInPageNav() {
             onClick={(e) => {
               if (!onHome) return;
               e.preventDefault();
+              setActiveId(item.id);
               closeScrollThenOpenSection(item.id);
             }}
           >

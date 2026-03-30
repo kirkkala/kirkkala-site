@@ -3,6 +3,8 @@
 :root {
   /* Sticky header clearance for #anchors (must stay ≥ visual header height) */
   --header-scroll-gap: 4.5rem;
+  /* Measured .site-header height (px); sticky section titles use this so they sit flush under the header */
+  --header-height: 4.5rem;
   /* Fixed footer bar — keep in sync with .site-footer / .footer-inner vertical size */
   --footer-fixed-height: 3.25rem;
   --paper: #f6f3ed;
@@ -267,6 +269,18 @@ button:focus-visible {
   /* Panel height: grid 0fr → 1fr (custom disclosure; native <details> doesn’t lay out closed body). */
   .section-accordion {
     @apply flex scroll-mt-[var(--header-scroll-gap)] flex-col gap-0;
+  }
+
+  /* Stays under the site header while scrolling this section; scrolls away when the next section enters. */
+  .section-accordion-heading {
+    position: sticky;
+    /* Flush under .site-header — uses real header height, not --header-scroll-gap (+buffer) */
+    top: var(--header-height);
+    z-index: 35;
+    /* Match main column (paper); translucency lets backdrop-blur read when body scrolls underneath */
+    @apply border-b border-border bg-paper/82 backdrop-blur-md;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
 
   .section-accordion-panel-outer {

@@ -62,7 +62,7 @@ export function SectionAccordion({
 
   return (
     <div id={id} data-open={open} className={rootClass}>
-      <h2 className="title-section title-section-with-icon m-0">
+      <h2 className="section-accordion-heading title-section title-section-with-icon m-0">
         <button
           type="button"
           id={triggerId}
