@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { BasketballSection } from "@/components/sections/basketball-section";
 
-/** Accordion panel is aria-hidden when closed; include hidden nodes for structure checks. */
+/** Accordion panel is inert when closed; include hidden nodes for structure checks. */
 const hidden = { hidden: true } as const;
 
 describe("BasketballSection product cards", () => {

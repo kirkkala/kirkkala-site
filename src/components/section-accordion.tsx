@@ -79,7 +79,7 @@ export function SectionAccordion({
           <section
             id={panelId}
             aria-labelledby={triggerId}
-            aria-hidden={!open}
+            inert={!open}
             className={`section-accordion-panel ${panelClassName}`}
           >
             {children}
