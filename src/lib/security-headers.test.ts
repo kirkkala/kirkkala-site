@@ -14,6 +14,11 @@ describe("getSecurityHeaders", () => {
         key: "Referrer-Policy",
         value: "strict-origin-when-cross-origin",
       },
+      {
+        key: "Permissions-Policy",
+        value:
+          "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
+      },
     ]);
     expect(headers.some((h) => h.key === "Content-Security-Policy")).toBe(
       false,
