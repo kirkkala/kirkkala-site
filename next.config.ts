@@ -2,9 +2,7 @@ import type { NextConfig } from "next";
 
 import { getSecurityHeaders } from "./src/lib/security-headers";
 
-const isProd = process.env.NODE_ENV === "production";
-
-const securityHeaders = getSecurityHeaders(isProd);
+const securityHeaders = getSecurityHeaders();
 
 const nextConfig: NextConfig = {
   // Inline CSS with HTML to avoid render-blocking stylesheet requests.

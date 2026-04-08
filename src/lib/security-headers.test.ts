@@ -3,39 +3,30 @@ import {
   getSecurityHeaders,
 } from "@/lib/security-headers";
 
+const testNonce = "dGVzdC1ub25jZS12YWx1ZQ";
+
 describe("getSecurityHeaders", () => {
-  it("always sets nosniff and referrer policy", () => {
-    for (const prod of [true, false]) {
-      const headers = getSecurityHeaders(prod);
-      expect(headers).toEqual(
-        expect.arrayContaining([
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          {
-            key: "Referrer-Policy",
-            value: "strict-origin-when-cross-origin",
-          },
-        ]),
-      );
-    }
-  });
-
-  it("includes Content-Security-Policy only in production", () => {
-    expect(
-      getSecurityHeaders(false).some(
-        (h) => h.key === "Content-Security-Policy",
-      ),
-    ).toBe(false);
-
-    const prod = getSecurityHeaders(true);
-    const csp = prod.find((h) => h.key === "Content-Security-Policy");
-    expect(csp).toBeDefined();
-    expect(csp?.value).toBe(buildContentSecurityPolicy());
+  it("sets nosniff and referrer policy (CSP is applied in middleware)", () => {
+    const headers = getSecurityHeaders();
+    expect(headers).toEqual([
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      {
+        key: "Referrer-Policy",
+        value: "strict-origin-when-cross-origin",
+      },
+    ]);
+    expect(headers.some((h) => h.key === "Content-Security-Policy")).toBe(
+      false,
+    );
   });
 });
 
 describe("buildContentSecurityPolicy", () => {
-  it("contains core directives and allowlisted script/connect sources", () => {
-    const csp = buildContentSecurityPolicy();
+  it("uses nonce + strict-dynamic and allowlisted script/connect sources", () => {
+    const csp = buildContentSecurityPolicy(testNonce);
+    expect(csp).toContain(`'nonce-${testNonce}'`);
+    expect(csp).toContain("'strict-dynamic'");
+    expect(csp).not.toContain("script-src 'self' 'unsafe-inline'");
     expect(csp).toContain("default-src 'self'");
     expect(csp).toContain("frame-ancestors 'none'");
     expect(csp).toContain("object-src 'none'");
