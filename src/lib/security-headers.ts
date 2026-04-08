@@ -2,6 +2,8 @@ export type SecurityHeader = { key: string; value: string };
 
 /** Full CSP string for production responses. */
 export function buildContentSecurityPolicy(): string {
+  const frameSrc = ["'self'", "https://vercel.live"].join(" ");
+
   const scriptSrc = [
     "'self'",
     "'unsafe-inline'",
@@ -21,6 +23,7 @@ export function buildContentSecurityPolicy(): string {
     "base-uri 'self'",
     "form-action 'self'",
     "object-src 'none'",
+    `frame-src ${frameSrc}`,
     "frame-ancestors 'none'",
     `script-src ${scriptSrc}`,
     "style-src 'self' 'unsafe-inline'",
