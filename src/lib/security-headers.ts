@@ -49,5 +49,11 @@ export function getSecurityHeaders(): SecurityHeader[] {
   return [
     { key: "X-Content-Type-Options", value: "nosniff" },
     { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+    // Deny powerful features by default (empty allowlist = disabled for this origin).
+    {
+      key: "Permissions-Policy",
+      value:
+        "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
+    },
   ];
 }
