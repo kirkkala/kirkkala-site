@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 32 32">
+  <!-- Path mirrors BRAND_MARK_PATH in src/components/brand-mark.tsx — keep in sync. -->
   <title>Timo Kirkkala</title>
   <circle cx="16" cy="16" r="16" fill="#fffcf7"/>
   <g stroke="#6b381f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.75">

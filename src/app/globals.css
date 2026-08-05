@@ -56,6 +56,76 @@ body {
   color: var(--ink);
 }
 
+/*
+ * Intro loader: rendered in the static HTML so it paints on the first frame,
+ * then reveals the page via a pure-CSS timed animation (no JS dependency, so it
+ * can never get stuck). The mark reuses the brand monogram from `icon.svg`.
+ */
+.page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  pointer-events: none;
+  animation: page-loader-out 500ms ease 800ms forwards;
+}
+
+.page-loader__mark {
+  transform-origin: center;
+  animation: page-loader-pulse 1.6s ease-in-out infinite;
+}
+
+.page-loader__disc {
+  fill: var(--surface);
+}
+
+.page-loader__stroke {
+  stroke: var(--accent);
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: page-loader-draw 750ms ease forwards;
+}
+
+@keyframes page-loader-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes page-loader-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes page-loader-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-loader {
+    animation: page-loader-out 200ms ease 200ms forwards;
+  }
+
+  .page-loader__mark {
+    animation: none;
+  }
+
+  .page-loader__stroke {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
 /* Focus: visible ring (Lighthouse / WCAG 2.4.7) */
 :focus:not(:focus-visible) {
   outline: none;
