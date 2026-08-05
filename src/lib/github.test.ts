@@ -131,6 +131,16 @@ describe("getPublicRepos", () => {
   });
 });
 
+/** Next types `NODE_ENV` as readonly; tests still need to toggle it at runtime. */
+function setNodeEnv(value: NodeJS.ProcessEnv["NODE_ENV"]) {
+  Object.defineProperty(process.env, "NODE_ENV", {
+    value,
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
+}
+
 describe("getPublicRepos REPO_FETCH_DELAY_MS (dev-only)", () => {
   const originalFetch = global.fetch;
   const originalNodeEnv = process.env.NODE_ENV;
@@ -138,7 +148,7 @@ describe("getPublicRepos REPO_FETCH_DELAY_MS (dev-only)", () => {
 
   afterEach(() => {
     global.fetch = originalFetch;
-    process.env.NODE_ENV = originalNodeEnv;
+    setNodeEnv(originalNodeEnv);
     if (originalDelayMs === undefined) {
       delete process.env.REPO_FETCH_DELAY_MS;
     } else {
@@ -148,7 +158,7 @@ describe("getPublicRepos REPO_FETCH_DELAY_MS (dev-only)", () => {
   });
 
   it("does not delay fetch when NODE_ENV is not development", async () => {
-    process.env.NODE_ENV = "test";
+    setNodeEnv("test");
     process.env.REPO_FETCH_DELAY_MS = "99999";
     jest.useFakeTimers();
     const fetchMock = jest.fn().mockResolvedValue(mockResponse([]));
@@ -160,7 +170,7 @@ describe("getPublicRepos REPO_FETCH_DELAY_MS (dev-only)", () => {
   });
 
   it("waits REPO_FETCH_DELAY_MS before fetch when NODE_ENV is development", async () => {
-    process.env.NODE_ENV = "development";
+    setNodeEnv("development");
     process.env.REPO_FETCH_DELAY_MS = "100";
     jest.useFakeTimers();
     const fetchMock = jest.fn().mockResolvedValue(mockResponse([]));
