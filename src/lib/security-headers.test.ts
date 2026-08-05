@@ -3,12 +3,14 @@ import {
   getSecurityHeaders,
 } from "@/lib/security-headers";
 
-const testNonce = "dGVzdC1ub25jZS12YWx1ZQ";
-
 describe("getSecurityHeaders", () => {
-  it("sets nosniff and referrer policy (CSP is applied in middleware)", () => {
+  it("includes the static CSP plus hardening headers", () => {
     const headers = getSecurityHeaders();
     expect(headers).toEqual([
+      {
+        key: "Content-Security-Policy",
+        value: buildContentSecurityPolicy(),
+      },
       { key: "X-Content-Type-Options", value: "nosniff" },
       {
         key: "Referrer-Policy",
@@ -20,18 +22,16 @@ describe("getSecurityHeaders", () => {
           "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
       },
     ]);
-    expect(headers.some((h) => h.key === "Content-Security-Policy")).toBe(
-      false,
-    );
   });
 });
 
 describe("buildContentSecurityPolicy", () => {
-  it("uses nonce + strict-dynamic and allowlisted script/connect sources", () => {
-    const csp = buildContentSecurityPolicy(testNonce);
-    expect(csp).toContain(`'nonce-${testNonce}'`);
-    expect(csp).toContain("'strict-dynamic'");
-    expect(csp).not.toContain("script-src 'self' 'unsafe-inline'");
+  it("uses a static (nonce-free) policy that keeps everything but scripts locked down", () => {
+    const csp = buildContentSecurityPolicy();
+    // Static, cacheable policy: no per-request nonce, no strict-dynamic.
+    expect(csp).not.toContain("nonce-");
+    expect(csp).not.toContain("'strict-dynamic'");
+    expect(csp).toContain("script-src 'self' 'unsafe-inline'");
     expect(csp).toContain("default-src 'self'");
     expect(csp).toContain("frame-ancestors 'none'");
     expect(csp).toContain("object-src 'none'");

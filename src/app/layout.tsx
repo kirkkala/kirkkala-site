@@ -4,9 +4,6 @@ import { Fraunces, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { site } from "@/data/site";
 
-// Per-request CSP nonces (middleware) require a dynamic HTML shell.
-export const dynamic = "force-dynamic";
-
 const display = Fraunces({
   variable: "--font-heading",
   subsets: ["latin"],
