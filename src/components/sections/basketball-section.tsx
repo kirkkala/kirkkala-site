@@ -115,7 +115,8 @@ export function BasketballSection() {
         </ProductCard>
       </div>
       <p className="prose-muted-constrained mb-3">
-        Outside of the club, I also got inspired creating basketball related products and services:
+        Outside of the club, I also got inspired creating basketball related
+        products and services:
       </p>
       <div className="basketball-products">
         <ProductCard
@@ -134,7 +135,8 @@ export function BasketballSection() {
             },
           ]}
         >
-          A map application to find and locate basketball courts from Finland. Data sourced from open API&apos;s.
+          A map application to find and locate basketball courts from Finland.
+          Data sourced from open API&apos;s.
         </ProductCard>
       </div>
     </SectionAccordion>
