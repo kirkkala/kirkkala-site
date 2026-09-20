@@ -24,6 +24,9 @@ export function CodingSection() {
         favorite.
       </p>
       <p className="prose-muted-constrained">
+        Coding outside of work: Scroll to the next section for some of my side projects.
+      </p>
+      <p className="prose-muted-constrained">
         <LinkExternal href={site.links.linkedin} className="link-accent">
           LinkedIn
         </LinkExternal>{" "}
