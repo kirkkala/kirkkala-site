@@ -114,6 +114,31 @@ export function BasketballSection() {
           including tracking each team&apos;s first-aid kit status.
         </ProductCard>
       </div>
+      <p className="prose-muted-constrained mb-3">
+        Outside of the club, I also got inspired creating basketball related
+        products and services:
+      </p>
+      <div className="basketball-products">
+        <ProductCard
+          eyebrow="Common good · map app"
+          title="Hoop Finder Finland"
+          externalLinks={[
+            {
+              href: "https://www.hoopfinder.fi/",
+              text: "www.hoopfinder.fi",
+              icon: <Globe />,
+            },
+            {
+              href: "https://github.com/kirkkala/hoopfinder",
+              text: "kirkkala/hoopfinder",
+              icon: <GitHubIcon />,
+            },
+          ]}
+        >
+          A map application to find and locate basketball courts from Finland.
+          Data sourced from open API&apos;s.
+        </ProductCard>
+      </div>
     </SectionAccordion>
   );
 }
