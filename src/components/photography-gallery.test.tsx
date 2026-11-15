@@ -14,16 +14,16 @@ describe("PhotographyGallery", () => {
     render(<PhotographyGallery photos={photos} />);
 
     expect(screen.getAllByRole("listitem")).toHaveLength(6);
+    expect(screen.getByRole("status")).toHaveTextContent("Showing 6 of 15");
 
-    await user.click(
-      screen.getByRole("button", { name: "Load 6 more photos" }),
-    );
+    await user.click(screen.getByRole("button", { name: "Load more photos" }));
     expect(screen.getAllByRole("listitem")).toHaveLength(12);
+    expect(screen.getByRole("status")).toHaveTextContent("Showing 12 of 15");
 
-    await user.click(
-      screen.getByRole("button", { name: "Load 3 more photos" }),
-    );
+    await user.click(screen.getByRole("button", { name: "Load more photos" }));
     expect(screen.getAllByRole("listitem")).toHaveLength(15);
-    expect(screen.queryByText("Load more")).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /Load more/ }),
+    ).not.toBeInTheDocument();
   });
 });

@@ -3,11 +3,8 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
-import { LoadMoreButton } from "@/components/load-more-button";
+import { LoadMore, useLoadMore } from "@/components/load-more";
 import type { Photo } from "@/data/site";
-
-/** Two rows on desktop (3 columns), three on tablet (2 columns). */
-const STEP = 6;
 
 /** Lightbox JS + CSS load on first open, not with the page. */
 const PhotographyLightbox = dynamic(
@@ -22,14 +19,14 @@ export function PhotographyGallery({ photos }: { photos: readonly Photo[] }) {
   const [open, setOpen] = useState(false);
   /** `null` until the first open, so the lightbox chunk isn't requested before then. */
   const [index, setIndex] = useState<number | null>(null);
-  const [visible, setVisible] = useState(STEP);
-  const remaining = photos.length - visible;
+  // 6 = two rows on desktop (3 columns), three on tablet (2 columns).
+  const { visible, reveal, more } = useLoadMore(photos, 6);
 
   return (
     <>
       <ul className="photo-grid">
-        {photos.slice(0, visible).map((photo, i) => (
-          <li key={photo.image.src} className="photo-item">
+        {visible.map((photo, i) => (
+          <li key={photo.image.src} className="photo-item" {...reveal(i)}>
             <button
               type="button"
               className="photo-tile"
@@ -56,13 +53,7 @@ export function PhotographyGallery({ photos }: { photos: readonly Photo[] }) {
           </li>
         ))}
       </ul>
-      {remaining > 0 ? (
-        <LoadMoreButton
-          next={Math.min(STEP, remaining)}
-          noun={["photo", "photos"]}
-          onClick={() => setVisible((n) => n + STEP)}
-        />
-      ) : null}
+      <LoadMore {...more}>Load more photos</LoadMore>
 
       {/* The lightbox gets every photo, so swiping can continue past the visible ones. */}
       {index !== null ? (
