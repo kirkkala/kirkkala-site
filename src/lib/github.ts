@@ -8,7 +8,7 @@ export type GitHubRepo = {
   fork: boolean;
 };
 
-export type PublicReposResult = {
+type PublicReposResult = {
   repos: GitHubRepo[];
   /** Set when the request fails so the page can explain instead of crashing */
   loadError: string | null;

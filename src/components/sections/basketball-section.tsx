@@ -1,13 +1,6 @@
 import { Globe, Trophy } from "lucide-react";
 import type { ReactNode } from "react";
 import { GitHubIcon } from "@/components/brand-icons";
-import {
-  ContentCardBlock,
-  ContentCardDescription,
-  ContentCardExternalLink,
-  ContentCardEyebrow,
-  ContentCardTitle,
-} from "@/components/content-card";
 import { LinkExternal } from "@/components/link-external";
 import { Section } from "@/components/section";
 
@@ -19,28 +12,33 @@ function ProductCard({
 }: {
   eyebrow: string;
   title: string;
-  externalLinks?: { href: string; text: ReactNode; icon?: ReactNode }[];
+  externalLinks: { href: string; text: string; icon: ReactNode }[];
   children: ReactNode;
 }) {
   return (
-    <ContentCardBlock>
-      <ContentCardEyebrow>{eyebrow}</ContentCardEyebrow>
-      <ContentCardTitle>{title}</ContentCardTitle>
-      <ContentCardDescription>{children}</ContentCardDescription>
-      {externalLinks?.length ? (
-        <div className="content-card-external-links">
-          {externalLinks.map((link) => (
-            <ContentCardExternalLink
-              key={link.href}
+    <article className="content-card content-card-block">
+      <p className="content-card-eyebrow">{eyebrow}</p>
+      <h3 className="content-card-title">{title}</h3>
+      <p className="content-card-desc">{children}</p>
+      <div className="content-card-external-links">
+        {externalLinks.map((link) => (
+          <p key={link.href} className="content-card-external-link">
+            <LinkExternal
               href={link.href}
-              icon={link.icon}
+              className="link-accent inline-flex items-center gap-1.5"
             >
+              <span
+                className="inline-flex size-4 shrink-0 items-center justify-center text-muted [&>*]:size-full"
+                aria-hidden
+              >
+                {link.icon}
+              </span>
               {link.text}
-            </ContentCardExternalLink>
-          ))}
-        </div>
-      ) : null}
-    </ContentCardBlock>
+            </LinkExternal>
+          </p>
+        ))}
+      </div>
+    </article>
   );
 }
 

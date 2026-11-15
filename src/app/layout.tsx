@@ -2,6 +2,8 @@ import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Fraunces, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
+import { Footer } from "@/components/footer";
+import { Header } from "@/components/header";
 import { site } from "@/data/site";
 
 const display = Fraunces({
@@ -47,7 +49,11 @@ export default function RootLayout({
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        {children}
+        <Header />
+        <main id="main" className="content-shell main-column">
+          {children}
+        </main>
+        <Footer />
         <Analytics />
       </body>
     </html>

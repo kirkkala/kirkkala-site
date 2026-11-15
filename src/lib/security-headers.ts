@@ -1,4 +1,4 @@
-export type SecurityHeader = { key: string; value: string };
+type SecurityHeader = { key: string; value: string };
 
 /**
  * Static CSP applied via `next.config` headers so the HTML shell can be

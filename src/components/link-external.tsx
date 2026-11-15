@@ -1,9 +1,6 @@
 import type { ComponentPropsWithoutRef } from "react";
 
-export type LinkExternalProps = Omit<
-  ComponentPropsWithoutRef<"a">,
-  "rel" | "target"
->;
+type LinkExternalProps = Omit<ComponentPropsWithoutRef<"a">, "rel" | "target">;
 
 /** Opens in a new tab with safe `rel` and WCAG 3.2.5 sr-only hint. */
 export function LinkExternal({ children, ...props }: LinkExternalProps) {

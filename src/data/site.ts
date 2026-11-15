@@ -19,7 +19,6 @@ export const site = {
   name: "Timo Kirkkala",
   handle: "kirkkala",
   tagline: "Kirkkala, a software engineer and goofy guy all around.",
-  location: "Helsinki",
   links: {
     site: "https://kirkkala.com",
     github: "https://github.com/kirkkala",

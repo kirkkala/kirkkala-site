@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowUpToLine } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { site } from "@/data/site";
 
@@ -17,7 +18,15 @@ const items = [
  */
 const SPY_ROOT_MARGIN = "-72px 0px -60% 0px";
 
+/**
+ * The header lives in the root layout and survives client-side navigation, so remount
+ * the nav per route: its observers then attach to the new page's hero and sections.
+ */
 export function HeaderInPageNav() {
+  return <InPageNav key={usePathname()} />;
+}
+
+function InPageNav() {
   const [pastHero, setPastHero] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
 

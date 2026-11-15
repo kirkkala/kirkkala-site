@@ -23,7 +23,7 @@ describe("RepoCard", () => {
     expect(card).toHaveAttribute("href", "https://github.com/u/hello-world");
     expect(card).toHaveAttribute("target", "_blank");
     expect(card).toHaveAttribute("rel", "noopener");
-    expect(card.className).toContain("content-card-link");
+    expect(card).toHaveClass("content-card", "content-card-link");
 
     expect(
       screen.getByRole("heading", { level: 3, name: /hello-world/i }),
