@@ -1,12 +1,7 @@
 "use client";
 
 import { ArrowUpToLine } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { useEffect, useLayoutEffect, useState } from "react";
-import {
-  closeAllSectionAccordions,
-  openSectionAccordion,
-} from "@/components/section-accordion";
+import { useEffect, useState } from "react";
 import { site } from "@/data/site";
 
 const items = [
@@ -16,163 +11,99 @@ const items = [
   { id: "repos", label: "Repos" },
 ] as const;
 
-/** Breathing room so the section title sits just under the header border. */
-const HEADER_SCROLL_BUFFER_PX = 8;
-
 /**
- * Scroll-spy band: section `#id` top must pass within this distance below the header gap line
- * to count as “current”. ~matches sticky title row height so nav tracks before the next section.
+ * A section counts as current while it overlaps this band: from just under the
+ * sticky header (≈ `--header-scroll-gap`) down to 40% of the viewport height.
  */
-const SCROLL_SPY_SECTION_TOP_SLOP_PX = 56;
-
-/** Slightly after `.section-accordion-panel-outer` close transition (280ms) so layout is settled before scroll. */
-const ACCORDION_CLOSE_LAYOUT_MS = 300;
-
-/**
- * Same value as `--header-scroll-gap` (header height + buffer). Using this for the active-link
- * threshold avoids `scrollPaddingTop` parsing as 0 in some engines when it comes from `var()`.
- */
-function readScrollGapPx(): number {
-  const root = document.documentElement;
-  const fromVar = getComputedStyle(root)
-    .getPropertyValue("--header-scroll-gap")
-    .trim();
-  if (fromVar) {
-    const n = Number.parseFloat(fromVar);
-    if (Number.isFinite(n) && n > 0) return n;
-  }
-  const fromScrollPadding = Number.parseFloat(
-    getComputedStyle(root).scrollPaddingTop,
-  );
-  if (Number.isFinite(fromScrollPadding) && fromScrollPadding > 0) {
-    return fromScrollPadding;
-  }
-  const header = document.querySelector(".site-header");
-  const h = header?.getBoundingClientRect().height ?? 0;
-  return Math.ceil(h) + HEADER_SCROLL_BUFFER_PX;
-}
-
-/**
- * Close every section, scroll to the target (collapsed, so the title aligns under the header),
- * then open that section after scrolling settles.
- */
-function closeScrollThenOpenSection(id: string) {
-  closeAllSectionAccordions();
-  window.history.replaceState(null, "", `#${id}`);
-
-  const reducedMotion =
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const waitAfterCloseMs = reducedMotion ? 0 : ACCORDION_CLOSE_LAYOUT_MS;
-
-  window.setTimeout(() => {
-    const el = document.getElementById(id);
-    el?.scrollIntoView({ block: "start", behavior: "smooth" });
-
-    let opened = false;
-    const openTarget = () => {
-      if (opened) return;
-      opened = true;
-      openSectionAccordion(id);
-    };
-
-    window.addEventListener("scrollend", openTarget, { once: true });
-    window.setTimeout(openTarget, reducedMotion ? 40 : 420);
-  }, waitAfterCloseMs);
-}
+const SPY_ROOT_MARGIN = "-72px 0px -60% 0px";
 
 export function HeaderInPageNav() {
-  const pathname = usePathname();
-  const onHome = pathname === "/";
+  const [pastHero, setPastHero] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
-  const [pastHero, setPastHero] = useState(!onHome);
 
-  /** Match `--header-scroll-gap` to the real sticky header height for `scroll-margin` / `scroll-padding`. */
-  useLayoutEffect(() => {
-    const header = document.querySelector(".site-header");
-    if (!header) return;
+  // Collapse the logo text and show "back to top" once the hero scrolls away.
+  useEffect(() => {
+    const hero = document.querySelector("main .hero-block");
+    if (!hero) {
+      setPastHero(true);
+      return;
+    }
+    const observer = new IntersectionObserver(([entry]) =>
+      setPastHero(!entry.isIntersecting),
+    );
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, []);
 
-    const apply = () => {
-      const h = Math.ceil(header.getBoundingClientRect().height);
-      document.documentElement.style.setProperty("--header-height", `${h}px`);
-      document.documentElement.style.setProperty(
-        "--header-scroll-gap",
-        `${h + HEADER_SCROLL_BUFFER_PX}px`,
-      );
+  // The logo reveal CSS lives on `.site-header` (a server component), so mirror state there.
+  useEffect(() => {
+    document
+      .querySelector(".site-header")
+      ?.setAttribute("data-past-hero", String(pastHero));
+  }, [pastHero]);
+
+  // Scroll-spy: highlight the last (most recently reached) section in the band. Keep
+  // the previous one while scrolling through the gap between sections.
+  useEffect(() => {
+    const lastId = items[items.length - 1].id;
+    const inBand = new Set<string>();
+    let lastFullyVisible = false;
+
+    const update = () => {
+      const current = lastFullyVisible
+        ? lastId
+        : items.findLast((item) => inBand.has(item.id))?.id;
+      if (current) setActiveId(current);
     };
 
-    apply();
-    const ro =
-      typeof ResizeObserver !== "undefined" ? new ResizeObserver(apply) : null;
-    ro?.observe(header);
-    window.addEventListener("resize", apply);
+    const band = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) inBand.add(entry.target.id);
+          else inBand.delete(entry.target.id);
+        }
+        update();
+      },
+      { rootMargin: SPY_ROOT_MARGIN },
+    );
+    for (const item of items) {
+      const el = document.getElementById(item.id);
+      if (el) band.observe(el);
+    }
+
+    // On tall screens a short final section can't scroll up into the band (the page
+    // ends first), so treat it as current once it's entirely in view.
+    const end = new IntersectionObserver(
+      ([entry]) => {
+        lastFullyVisible = entry.intersectionRatio > 0.99;
+        update();
+      },
+      { threshold: 1 },
+    );
+    const lastEl = document.getElementById(lastId);
+    if (lastEl) end.observe(lastEl);
+
     return () => {
-      ro?.disconnect();
-      window.removeEventListener("resize", apply);
-      document.documentElement.style.removeProperty("--header-height");
-      document.documentElement.style.removeProperty("--header-scroll-gap");
+      band.disconnect();
+      end.disconnect();
     };
   }, []);
 
+  // Mark the current section so CSS can highlight its heading (see `.page-section[data-active]`).
   useEffect(() => {
-    const header = document.querySelector(".site-header");
-    if (!header) return;
-
-    const sync = () => {
-      if (!onHome) {
-        header.setAttribute("data-past-hero", "true");
-        setPastHero(true);
-        setActiveId(null);
-        return;
-      }
-
-      const hero = document.querySelector("main .hero-block");
-      if (!hero) {
-        header.setAttribute("data-past-hero", "true");
-        setPastHero(true);
-      } else {
-        const r = hero.getBoundingClientRect();
-        const heroVisible = r.bottom > 0 && r.top < window.innerHeight;
-        if (heroVisible) {
-          header.removeAttribute("data-past-hero");
-          setPastHero(false);
-        } else {
-          header.setAttribute("data-past-hero", "true");
-          setPastHero(true);
-        }
-      }
-
-      const band = readScrollGapPx() + SCROLL_SPY_SECTION_TOP_SLOP_PX;
-      let id: string | null = null;
-      for (const x of items) {
-        const el = document.getElementById(x.id);
-        if (el && el.getBoundingClientRect().top <= band) id = x.id;
-      }
-      setActiveId(id);
-    };
-
-    sync();
-    addEventListener("scroll", sync, { passive: true });
-    addEventListener("resize", sync);
-    addEventListener("hashchange", sync);
-    window.addEventListener("scrollend", sync, { passive: true });
-    return () => {
-      removeEventListener("scroll", sync);
-      removeEventListener("resize", sync);
-      removeEventListener("hashchange", sync);
-      window.removeEventListener("scrollend", sync);
-    };
-  }, [onHome]);
+    for (const item of items) {
+      document
+        .getElementById(item.id)
+        ?.toggleAttribute("data-active", pastHero && activeId === item.id);
+    }
+  }, [pastHero, activeId]);
 
   return (
     <>
       <a
-        href={onHome ? "#top" : "/#top"}
+        href="#top"
         className="nav-link nav-link-inpage nav-link-top"
         tabIndex={pastHero ? undefined : -1}
-        onClick={() => {
-          if (onHome) closeAllSectionAccordions();
-        }}
       >
         <ArrowUpToLine
           className="size-[1.125rem] shrink-0 sm:size-5"
@@ -182,19 +113,14 @@ export function HeaderInPageNav() {
         <span className="sr-only">Back to top · {site.name}</span>
       </a>
       {items.map((item) => {
-        const active = onHome && activeId === item.id;
+        const active = pastHero && activeId === item.id;
         return (
+          // `/#id` scrolls in place on the home page and navigates home from elsewhere.
           <a
             key={item.id}
-            href={onHome ? `#${item.id}` : `/#${item.id}`}
+            href={`/#${item.id}`}
             className={`nav-link nav-link-inpage${active ? " nav-link-inpage-active" : ""}`}
             aria-current={active ? "location" : undefined}
-            onClick={(e) => {
-              if (!onHome) return;
-              e.preventDefault();
-              setActiveId(item.id);
-              closeScrollThenOpenSection(item.id);
-            }}
           >
             {item.label}
           </a>

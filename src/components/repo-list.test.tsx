@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { RepoList } from "@/components/repo-list";
 import type { GitHubRepo } from "@/lib/github";
@@ -26,14 +26,12 @@ describe("RepoList", () => {
     expect(screen.getAllByRole("listitem")).toHaveLength(4);
 
     await user.click(screen.getByText("Load more"));
-    await waitFor(() =>
-      expect(screen.getAllByRole("listitem")).toHaveLength(8),
-    );
+    expect(screen.getAllByRole("listitem")).toHaveLength(8);
 
-    await user.click(screen.getByText("Load more"));
-    await waitFor(() =>
-      expect(screen.getAllByRole("listitem")).toHaveLength(10),
+    await user.click(
+      screen.getByRole("button", { name: "Load 2 more repositories" }),
     );
+    expect(screen.getAllByRole("listitem")).toHaveLength(10);
     expect(screen.queryByText("Load more")).not.toBeInTheDocument();
   });
 
