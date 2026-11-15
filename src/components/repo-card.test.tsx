@@ -11,7 +11,6 @@ function repo(overrides: Partial<GitHubRepo> = {}): GitHubRepo {
     language: "TypeScript",
     stargazers_count: 42,
     fork: false,
-    archived: false,
     ...overrides,
   };
 }

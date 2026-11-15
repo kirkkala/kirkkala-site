@@ -77,6 +77,37 @@ describe("getPublicRepos", () => {
     expect(out[11]?.stargazers_count).toBe(1);
   });
 
+  it("keeps only the fields the UI renders", async () => {
+    const raw = {
+      id: 1,
+      name: "repo",
+      description: "desc",
+      html_url: "https://github.com/u/repo",
+      language: "TS",
+      stargazers_count: 2,
+      fork: true,
+      archived: false,
+      owner: { login: "u", avatar_url: "https://example.com/a.png" },
+      clone_url: "https://github.com/u/repo.git",
+      topics: ["a", "b"],
+    };
+    global.fetch = jest.fn().mockResolvedValue(mockResponse([raw]));
+
+    const { repos } = await getPublicRepos("u");
+
+    expect(repos).toEqual([
+      {
+        id: 1,
+        name: "repo",
+        description: "desc",
+        html_url: "https://github.com/u/repo",
+        language: "TS",
+        stargazers_count: 2,
+        fork: true,
+      },
+    ]);
+  });
+
   it("returns loadError when fetch throws", async () => {
     global.fetch = jest
       .fn()

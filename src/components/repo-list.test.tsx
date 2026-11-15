@@ -12,7 +12,6 @@ function makeRepo(id: number, name: string): GitHubRepo {
     language: "TS",
     stargazers_count: 0,
     fork: false,
-    archived: false,
   };
 }
 
