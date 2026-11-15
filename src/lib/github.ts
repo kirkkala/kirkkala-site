@@ -6,10 +6,9 @@ export type GitHubRepo = {
   language: string | null;
   stargazers_count: number;
   fork: boolean;
-  archived: boolean;
 };
 
-export type PublicReposResult = {
+type PublicReposResult = {
   repos: GitHubRepo[];
   /** Set when the request fails so the page can explain instead of crashing */
   loadError: string | null;
@@ -77,8 +76,29 @@ export async function getPublicRepos(
     };
   }
 
-  const repos = (data as GitHubRepo[])
+  const repos = (data as (GitHubRepo & { archived: boolean })[])
     .filter((r) => !r.archived)
+    // Pick only the fields the UI renders: the raw API objects have ~80 fields each and
+    // would otherwise be serialized into the page payload for the client `RepoList`.
+    .map(
+      ({
+        id,
+        name,
+        description,
+        html_url,
+        language,
+        stargazers_count,
+        fork,
+      }): GitHubRepo => ({
+        id,
+        name,
+        description,
+        html_url,
+        language,
+        stargazers_count,
+        fork,
+      }),
+    )
     // Stargazers = those who starred the repo on GitHub, sorting by the most-starred first for the grid.
     .sort((a, b) => b.stargazers_count - a.stargazers_count);
 

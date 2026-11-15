@@ -1,8 +1,24 @@
+import type { StaticImageData } from "next/image";
+import americaMittens from "@/assets/photography/america-mittens.jpg";
+import americaMittensColor from "@/assets/photography/america-mittens-color.jpg";
+import deathValleyTree from "@/assets/photography/death-valley-tree.jpg";
+import icelandMount from "@/assets/photography/iceland-mount.jpg";
+import icelandSkogafoss from "@/assets/photography/iceland-skogafoss.jpg";
+import irelandTower from "@/assets/photography/ireland-tower.jpg";
+import murica from "@/assets/photography/murica.jpg";
+import newYork from "@/assets/photography/new-york.jpg";
+import nuuksioUpsideDown from "@/assets/photography/nuuksio-upside-down.jpg";
+import panamaBasketball from "@/assets/photography/panama-basketball.jpg";
+import pinholeGreenwich from "@/assets/photography/pinhole-greenwich.jpg";
+import pinholeHasselblad from "@/assets/photography/pinhole-hasselblad.jpg";
+import pinholeMylllyjarvi from "@/assets/photography/pinhole-mylllyjarvi.jpg";
+import sfHawkhill from "@/assets/photography/sf-hawkhill.jpg";
+import yosemite from "@/assets/photography/yosemite.jpg";
+
 export const site = {
   name: "Timo Kirkkala",
   handle: "kirkkala",
   tagline: "Kirkkala, a software engineer and goofy guy all around.",
-  location: "Helsinki",
   links: {
     site: "https://kirkkala.com",
     github: "https://github.com/kirkkala",
@@ -26,87 +42,96 @@ export const skills = [
   "SCRUM master",
 ] as const;
 
-/** Add images to `public/photography/` and list them here. */
-export const photography: readonly {
-  src: string;
+export type Photo = {
+  image: StaticImageData;
   alt: string;
   caption?: string;
-}[] = [
-  {
-    src: "/photography/nuuksio-upside-down.jpg",
-    alt: "Nuuksio upside down",
-    caption: "Nuuksio — 35mm",
-  },
-  {
-    src: "/photography/ireland-tower.jpg",
-    alt: "O'Brien's Tower, Ireland",
-    caption: "O'Brien's Tower, Ireland — Medium format film",
-  },
-  {
-    src: "/photography/iceland-mount.jpg",
-    alt: "Iceland Mount",
-    caption: "Iceland — Medium format film",
-  },
-  {
-    src: "/photography/iceland-skogafoss.jpg",
-    alt: "Skógafoss, Iceland",
-    caption: "Skógafoss, Iceland — Medium format film",
-  },
-  {
-    src: "/photography/new-york.jpg",
-    alt: "New York City",
-    caption: "New York — Medium format film",
-  },
-  {
-    src: "/photography/america-mittens-color.jpg",
-    alt: "Mittens, Monument Valley America. Picture in color.",
-    caption: "Monument Valley, Utah — Medium format film",
-  },
-  {
-    src: "/photography/america-mittens.jpg",
-    alt: "Mittens, Monument Valley America. Picture in black and white.",
-    caption: "Monument Valley, Utah — Medium format film",
-  },
-  {
-    src: "/photography/death-valley-tree.jpg",
-    alt: "Tree in Death Valley America",
-    caption: "Death Valley, California — Medium format film",
-  },
-  {
-    src: "/photography/murica.jpg",
-    alt: "Murica",
-    caption: "'Murica — Medium format film",
-  },
-  {
-    src: "/photography/sf-hawkhill.jpg",
-    alt: "San Francisco Hawkhill",
-    caption:
-      "Golden Gate from Hawk Hill, San Francisco, California — Medium format film",
-  },
-  {
-    src: "/photography/yosemite.jpg",
-    alt: "Yosemite National Park",
-    caption: "Yosemite National Park, California — Medium format film",
-  },
-  {
-    src: "/photography/panama-basketball.jpg",
-    alt: "Basketball court in Panama",
-    caption: "Isla Bastimentos, Panama — Medium format film",
-  },
-  {
-    src: "/photography/pinhole-hasselblad.jpg",
-    alt: "Pinhole camera",
-    caption:
-      "My Hasselblad and a cardboard pinhole camera replica I made myself.",
-  },
-  {
-    src: "/photography/pinhole-greenwich.jpg",
-    alt: "Greenwich Observatory",
-    caption: "Greenwich Observatory, London — Pinhole photography",
-  },
-  {
-    src: "/photography/pinhole-mylllyjarvi.jpg",
-    alt: "Mylllyjärvi",
-    caption: "Mylllyjärvi, Finland — Pinhole photography",
-  },
-] as const;
+};
+
+/** Add images to `src/assets/photography/`, import them above and list them here. */
+export const photography: readonly Photo[] = (
+  [
+    {
+      image: nuuksioUpsideDown,
+      alt: "Nuuksio upside down",
+      caption: "Nuuksio — 35mm",
+    },
+    {
+      image: irelandTower,
+      alt: "O'Brien's Tower, Ireland",
+      caption: "O'Brien's Tower, Ireland — Medium format film",
+    },
+    {
+      image: icelandMount,
+      alt: "Iceland Mount",
+      caption: "Iceland — Medium format film",
+    },
+    {
+      image: icelandSkogafoss,
+      alt: "Skógafoss, Iceland",
+      caption: "Skógafoss, Iceland — Medium format film",
+    },
+    {
+      image: newYork,
+      alt: "New York City",
+      caption: "New York — Medium format film",
+    },
+    {
+      image: americaMittensColor,
+      alt: "Mittens, Monument Valley America. Picture in color.",
+      caption: "Monument Valley, Utah — Medium format film",
+    },
+    {
+      image: americaMittens,
+      alt: "Mittens, Monument Valley America. Picture in black and white.",
+      caption: "Monument Valley, Utah — Medium format film",
+    },
+    {
+      image: deathValleyTree,
+      alt: "Tree in Death Valley America",
+      caption: "Death Valley, California — Medium format film",
+    },
+    {
+      image: murica,
+      alt: "Murica",
+      caption: "'Murica — Medium format film",
+    },
+    {
+      image: sfHawkhill,
+      alt: "San Francisco Hawkhill",
+      caption:
+        "Golden Gate from Hawk Hill, San Francisco, California — Medium format film",
+    },
+    {
+      image: yosemite,
+      alt: "Yosemite National Park",
+      caption: "Yosemite National Park, California — Medium format film",
+    },
+    {
+      image: panamaBasketball,
+      alt: "Basketball court in Panama",
+      caption: "Isla Bastimentos, Panama — Medium format film",
+    },
+    {
+      image: pinholeHasselblad,
+      alt: "Pinhole camera",
+      caption:
+        "My Hasselblad and a cardboard pinhole camera replica I made myself.",
+    },
+    {
+      image: pinholeGreenwich,
+      alt: "Greenwich Observatory",
+      caption: "Greenwich Observatory, London — Pinhole photography",
+    },
+    {
+      image: pinholeMylllyjarvi,
+      alt: "Mylllyjärvi",
+      caption: "Mylllyjärvi, Finland — Pinhole photography",
+    },
+  ] satisfies Photo[]
+).map(({ image: { src, width, height }, ...photo }) => ({
+  ...photo,
+  // Static imports also carry a base64 `blurDataURL` (~1 KB each) that the gallery
+  // doesn't use; drop it so it isn't serialized into the page for the client gallery.
+  image: { src, width, height },
+}));

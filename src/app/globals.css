@@ -1,10 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  /* Sticky header clearance for #anchors (must stay ≥ visual header height) */
+  /* Sticky header clearance for #anchors (must stay ≥ the ~65px header height) */
   --header-scroll-gap: 4.5rem;
-  /* Measured .site-header height (px); sticky section titles use this so they sit flush under the header */
-  --header-height: 4.5rem;
   /* Fixed footer bar — keep in sync with .site-footer / .footer-inner vertical size */
   --footer-fixed-height: 3.25rem;
   --paper: #f6f3ed;
@@ -54,70 +52,6 @@ html {
 body {
   background: var(--paper);
   color: var(--ink);
-}
-
-/*
- * Intro loader: rendered in the static HTML so it paints on the first frame,
- * then reveals the page via a pure-CSS timed animation (no JS dependency, so it
- * can never get stuck). The mark reuses the brand monogram from `icon.svg`.
- */
-.page-loader {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  display: grid;
-  place-items: center;
-  background: var(--paper);
-  pointer-events: none;
-  animation: page-loader-out 750ms ease 700ms forwards;
-}
-
-.page-loader__mark {
-  transform-origin: center;
-  will-change: transform, opacity;
-  animation: page-loader-grow 1450ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-.page-loader__disc {
-  fill: var(--surface);
-}
-
-.page-loader__stroke {
-  stroke: var(--accent);
-}
-
-@keyframes page-loader-grow {
-  0% {
-    transform: scale(0.3);
-    opacity: 0;
-  }
-  14% {
-    opacity: 1;
-  }
-  55% {
-    opacity: 1;
-  }
-  100% {
-    transform: scale(3.8);
-    opacity: 0;
-  }
-}
-
-@keyframes page-loader-out {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .page-loader {
-    animation: page-loader-out 200ms ease 200ms forwards;
-  }
-
-  .page-loader__mark {
-    animation: none;
-  }
 }
 
 /* Focus: visible ring (Lighthouse / WCAG 2.4.7) */
@@ -304,8 +238,6 @@ button:focus-visible {
       var(--footer-fixed-height) +
       env(safe-area-inset-bottom, 0px)
     );
-    /* Scroll runway: short pages can’t scroll far enough for #anchors to clear the sticky header. */
-    min-height: calc(100svh + 70vh);
   }
 
   @media (min-width: 640px) {
@@ -318,74 +250,57 @@ button:focus-visible {
     }
   }
 
-  .hero-block {
-    @apply space-y-6;
-  }
-
+  .hero-block,
   .page-section {
     @apply space-y-6;
   }
 
-  .page-section-loose {
-    @apply space-y-8;
+  /* Active section (set by the header scroll-spy): accent underline draws in, icon dribbles once. */
+  .page-section > .title-section {
+    @apply relative border-b border-border pb-3;
   }
 
-  /* Panel height: grid 0fr → 1fr (custom disclosure; native <details> doesn’t lay out closed body). */
-  .section-accordion {
-    @apply flex scroll-mt-[var(--header-scroll-gap)] flex-col gap-0;
+  .page-section > .title-section::after {
+    @apply absolute inset-x-0 -bottom-px h-0.5 origin-left scale-x-0 bg-accent content-[''];
+    transition: scale 600ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  /* Stays under the site header while scrolling this section; scrolls away when the next section enters. */
-  .section-accordion-heading {
-    position: sticky;
-    /* Flush under .site-header — uses real header height, not --header-scroll-gap (+buffer) */
-    top: var(--header-height);
-    z-index: 35;
-    /* Match main column (paper); translucency lets backdrop-blur read when body scrolls underneath */
-    @apply border-b border-border bg-paper/82 backdrop-blur-md;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+  .page-section[data-active] > .title-section::after {
+    @apply scale-x-100;
   }
 
-  .section-accordion-panel-outer {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.28s cubic-bezier(0.33, 1, 0.68, 1);
+  .page-section .title-section-icon {
+    transition: opacity 300ms ease-out;
   }
 
-  .section-accordion[data-open="true"] .section-accordion-panel-outer {
-    grid-template-rows: 1fr;
+  .page-section[data-active] .title-section-icon {
+    @apply opacity-100;
+    animation: dribble 700ms ease-out;
   }
 
-  .section-accordion-panel-sizer {
-    min-height: 0;
-    overflow: hidden;
-  }
-
-  .section-accordion-panel {
-    @apply pt-6;
-  }
-
-  .section-accordion.section-accordion-loose .section-accordion-panel {
-    @apply pt-8;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .section-accordion-panel-outer {
-      transition: none;
+  @keyframes dribble {
+    0%,
+    50%,
+    80%,
+    100% {
+      translate: 0 0;
+    }
+    25% {
+      translate: 0 -0.45rem;
+    }
+    65% {
+      translate: 0 -0.15rem;
     }
   }
 
-  .section-accordion-trigger {
-    @apply inline-flex w-full min-w-0 cursor-pointer items-center gap-3 rounded-sm border-0 bg-transparent p-0 text-left font-display text-2xl font-medium text-ink transition-colors duration-200 ease-out hover:text-accent;
-  }
+  @media (prefers-reduced-motion: reduce) {
+    .page-section > .title-section::after {
+      transition: none;
+    }
 
-  .section-accordion-trigger .title-section-icon {
-    @apply transition-opacity duration-200 ease-out;
-  }
-
-  .section-accordion-trigger:hover .title-section-icon {
-    @apply opacity-100;
+    .page-section[data-active] .title-section-icon {
+      animation: none;
+    }
   }
 
   .repos-intro {
@@ -396,22 +311,53 @@ button:focus-visible {
     @apply grid gap-4 sm:grid-cols-2;
   }
 
-  .repo-load-more {
-    @apply mt-6 w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm font-medium text-ink shadow-sm transition-[border-color,box-shadow,opacity] duration-200 ease-out cursor-pointer;
+  /* Hairline (like section headings) whose accent segment shows how much is loaded. */
+  .load-more {
+    @apply relative mt-6 flex items-center justify-between gap-4 border-t border-border pt-3 text-sm;
   }
 
+  .load-more::before {
+    @apply absolute -top-px left-0 h-0.5 bg-accent content-[''];
+    width: calc(var(--load-more-progress) * 100%);
+    transition: width 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .load-more-status {
+    @apply m-0 tabular-nums text-muted;
+  }
+
+  .load-more-button {
+    @apply inline-flex cursor-pointer items-center gap-1 border-0 bg-transparent p-0 font-medium;
+  }
+
+  .load-more-icon {
+    @apply size-4 shrink-0 transition-[translate] duration-200 ease-out;
+  }
+
+  .load-more-button:hover .load-more-icon {
+    @apply translate-y-0.5;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .load-more::before,
+    .load-more-icon {
+      transition: none;
+    }
+  }
+
+  /* Items revealed by "Load more" fade up one after another (index set by useLoadMore). */
   @media (prefers-reduced-motion: no-preference) {
-    .repo-load-more:hover:not(:disabled):not([aria-busy="true"]) {
-      @apply border-accent/40 shadow-md;
-    }
-
-    .repo-load-more[aria-busy="true"] {
-      @apply animate-pulse;
+    [data-reveal] {
+      animation: reveal 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: calc(var(--reveal-index) * 70ms);
     }
   }
 
-  .repo-load-more:disabled {
-    @apply cursor-wait;
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      translate: 0 0.75rem;
+    }
   }
 
   .footer-inner {
@@ -522,6 +468,30 @@ button:focus-visible {
 
   .photo-grid {
     @apply mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6;
+    /*
+     * Skip layout/paint while far off-screen. Lazy thumbnails in a skipped subtree aren't
+     * fetched, so they can't compete with the first paint (headless Chrome's lazy-load
+     * distance is wide enough to fetch them otherwise). The placeholder heights match
+     * the measured grid (six tiles) closely, so in-page links below it land accurately
+     * before it has rendered; `auto` then remembers the real height.
+     */
+    content-visibility: auto;
+    /* 1 column: 3:2 tiles scale with the viewport width */
+    contain-intrinsic-height: auto calc(400vw + 56px);
+  }
+
+  @media (min-width: 40rem) {
+    .photo-grid {
+      /* 2 columns, 3 rows; the column stops growing at max-w-3xl (768px) */
+      contain-intrinsic-height: auto calc(min(100vw, 768px) + 45px);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .photo-grid {
+      /* 3 columns, 2 rows at a fixed column width */
+      contain-intrinsic-height: auto 420px;
+    }
   }
 
   .photo-tile {

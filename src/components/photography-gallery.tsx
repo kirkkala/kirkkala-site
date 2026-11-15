@@ -1,56 +1,44 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useCallback, useMemo, useState } from "react";
-import Lightbox from "yet-another-react-lightbox";
-import Captions from "yet-another-react-lightbox/plugins/captions";
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import "yet-another-react-lightbox/plugins/captions.css";
-import "yet-another-react-lightbox/styles.css";
+import { useState } from "react";
+import { LoadMore, useLoadMore } from "@/components/load-more";
+import type { Photo } from "@/data/site";
 
-export type GalleryPhoto = {
-  src: string;
-  alt: string;
-  caption?: string;
-};
+/** Lightbox JS + CSS load on first open, not with the page. */
+const PhotographyLightbox = dynamic(
+  () =>
+    import("@/components/photography-lightbox").then(
+      (m) => m.PhotographyLightbox,
+    ),
+  { ssr: false },
+);
 
-type PhotographyGalleryProps = {
-  photos: readonly GalleryPhoto[];
-};
-
-export function PhotographyGallery({ photos }: PhotographyGalleryProps) {
+export function PhotographyGallery({ photos }: { photos: readonly Photo[] }) {
   const [open, setOpen] = useState(false);
-  const [index, setIndex] = useState(0);
-
-  const slides = useMemo(
-    () =>
-      photos.map((p) => ({
-        src: p.src,
-        alt: p.alt,
-        ...(p.caption ? { description: p.caption } : {}),
-      })),
-    [photos],
-  );
-
-  const openAt = useCallback((i: number) => {
-    setIndex(i);
-    setOpen(true);
-  }, []);
+  /** `null` until the first open, so the lightbox chunk isn't requested before then. */
+  const [index, setIndex] = useState<number | null>(null);
+  // 6 = two rows on desktop (3 columns), three on tablet (2 columns).
+  const { visible, reveal, more } = useLoadMore(photos, 6);
 
   return (
     <>
       <ul className="photo-grid">
-        {photos.map((photo, i) => (
-          <li key={photo.src} className="photo-item">
+        {visible.map((photo, i) => (
+          <li key={photo.image.src} className="photo-item" {...reveal(i)}>
             <button
               type="button"
               className="photo-tile"
-              onClick={() => openAt(i)}
+              onClick={() => {
+                setIndex(i);
+                setOpen(true);
+              }}
               aria-label={`Enlarge: ${photo.alt}`}
             >
               <div className="photo-frame">
                 <Image
-                  src={photo.src}
+                  src={photo.image}
                   alt={photo.alt}
                   fill
                   className="object-cover object-center"
@@ -65,23 +53,18 @@ export function PhotographyGallery({ photos }: PhotographyGalleryProps) {
           </li>
         ))}
       </ul>
+      <LoadMore {...more}>Load more photos</LoadMore>
 
-      <Lightbox
-        open={open}
-        close={() => setOpen(false)}
-        index={index}
-        slides={slides}
-        plugins={[Captions, Zoom]}
-        carousel={{ finite: true, padding: "16px", spacing: "12px" }}
-        animation={{ fade: 280 }}
-        captions={{
-          showToggle: true,
-          descriptionTextAlign: "center",
-        }}
-        controller={{ closeOnBackdropClick: true }}
-        on={{ view: ({ index: next }) => setIndex(next) }}
-        zoom={{ maxZoomPixelRatio: 3, scrollToZoom: true }}
-      />
+      {/* The lightbox gets every photo, so swiping can continue past the visible ones. */}
+      {index !== null ? (
+        <PhotographyLightbox
+          photos={photos}
+          open={open}
+          index={index}
+          onClose={() => setOpen(false)}
+          onView={setIndex}
+        />
+      ) : null}
     </>
   );
 }

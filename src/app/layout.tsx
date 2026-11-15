@@ -2,7 +2,8 @@ import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Fraunces, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
-import { BrandMark } from "@/components/brand-mark";
+import { Footer } from "@/components/footer";
+import { Header } from "@/components/header";
 import { site } from "@/data/site";
 
 const display = Fraunces({
@@ -45,19 +46,14 @@ export default function RootLayout({
       className={`${display.variable} ${body.variable} h-full scroll-smooth antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">
-        <div className="page-loader" aria-hidden="true">
-          <BrandMark
-            className="page-loader__mark"
-            width="72"
-            height="72"
-            discClassName="page-loader__disc"
-            strokeClassName="page-loader__stroke"
-          />
-        </div>
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        {children}
+        <Header />
+        <main id="main" className="content-shell main-column">
+          {children}
+        </main>
+        <Footer />
         <Analytics />
       </body>
     </html>

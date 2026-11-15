@@ -1,9 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { BasketballSection } from "@/components/sections/basketball-section";
 
-/** Accordion panel is inert when closed; include hidden nodes for structure checks. */
-const hidden = { hidden: true } as const;
-
 describe("BasketballSection product cards", () => {
   it("renders product titles as headings and external links in the card footer", () => {
     render(<BasketballSection />);
@@ -12,14 +9,12 @@ describe("BasketballSection product cards", () => {
       screen.getByRole("heading", {
         level: 3,
         name: /eLSA → MyClub/i,
-        ...hidden,
       }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
         level: 3,
         name: /Home game officials/i,
-        ...hidden,
       }),
     ).toBeInTheDocument();
 
@@ -33,13 +28,11 @@ describe("BasketballSection product cards", () => {
     expect(
       screen.getByRole("link", {
         name: /elsa-myclub\.hnmky\.fi \(opens in new tab\)/i,
-        ...hidden,
       }),
     ).toHaveAttribute("href", "https://elsa-myclub.hnmky.fi/");
 
     const elsaGithub = screen.getByRole("link", {
       name: /kirkkala\/elsa-myclub \(opens in new tab\)/i,
-      ...hidden,
     });
     expect(elsaGithub).toHaveAttribute(
       "href",
@@ -51,7 +44,6 @@ describe("BasketballSection product cards", () => {
     expect(
       screen.getByRole("link", {
         name: /kirkkala\/homegame-officials \(opens in new tab\)/i,
-        ...hidden,
       }),
     ).toHaveAttribute("href", "https://github.com/kirkkala/homegame-officials");
   });
@@ -62,14 +54,12 @@ describe("BasketballSection product cards", () => {
     expect(
       screen.getByRole("link", {
         name: "eLSA (opens in new tab)",
-        ...hidden,
       }),
     ).toHaveAttribute("href", "https://elsa.basket.fi");
 
     expect(
       screen.getByRole("link", {
         name: "MyClub (opens in new tab)",
-        ...hidden,
       }),
     ).toHaveAttribute("href", "https://www.myclub.fi/");
   });

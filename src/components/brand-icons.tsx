@@ -19,9 +19,7 @@ function BrandIcon({
     <span
       {...props}
       aria-hidden
-      className={["inline-block bg-current", className]
-        .filter(Boolean)
-        .join(" ")}
+      className={`inline-block bg-current ${className ?? ""}`}
       style={{
         maskImage: `url(${maskSrc})`,
         maskSize: "contain",
