@@ -468,6 +468,30 @@ button:focus-visible {
 
   .photo-grid {
     @apply mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6;
+    /*
+     * Skip layout/paint while far off-screen. Lazy thumbnails in a skipped subtree aren't
+     * fetched, so they can't compete with the first paint (headless Chrome's lazy-load
+     * distance is wide enough to fetch them otherwise). The placeholder heights match
+     * the measured grid (six tiles) closely, so in-page links below it land accurately
+     * before it has rendered; `auto` then remembers the real height.
+     */
+    content-visibility: auto;
+    /* 1 column: 3:2 tiles scale with the viewport width */
+    contain-intrinsic-height: auto calc(400vw + 56px);
+  }
+
+  @media (min-width: 40rem) {
+    .photo-grid {
+      /* 2 columns, 3 rows; the column stops growing at max-w-3xl (768px) */
+      contain-intrinsic-height: auto calc(min(100vw, 768px) + 45px);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .photo-grid {
+      /* 3 columns, 2 rows at a fixed column width */
+      contain-intrinsic-height: auto 420px;
+    }
   }
 
   .photo-tile {

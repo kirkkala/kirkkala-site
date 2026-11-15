@@ -14,9 +14,10 @@ const items = [
 
 /**
  * A section counts as current while it overlaps this band: from just under the
- * sticky header (≈ `--header-scroll-gap`) down to 40% of the viewport height.
+ * sticky header (≈ `--header-scroll-gap`) down to 25% of the viewport height. Kept
+ * shallow so a tall screen doesn't also catch the next section's heading.
  */
-const SPY_ROOT_MARGIN = "-72px 0px -60% 0px";
+const SPY_ROOT_MARGIN = "-72px 0px -75% 0px";
 
 /**
  * The header lives in the root layout and survives client-side navigation, so remount
@@ -84,7 +85,9 @@ function InPageNav() {
     // ends first), so treat it as current once it's entirely in view.
     const end = new IntersectionObserver(
       ([entry]) => {
-        lastFullyVisible = entry.intersectionRatio > 0.99;
+        // Check both: after a long jump Chrome can report a stale ratio on an exit entry.
+        lastFullyVisible =
+          entry.isIntersecting && entry.intersectionRatio > 0.99;
         update();
       },
       { threshold: 1 },
