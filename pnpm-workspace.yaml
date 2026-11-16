@@ -1,0 +1,9 @@
+# Force patched versions of transitive Jest deps (jest 30.5.2 still pins vulnerable ones)
+overrides:
+  glob@>=9.0.0 <14.0.2: ^14.0.2
+  minimatch@>=7.0.0 <11.0.1: ^11.0.1
+
+auditConfig:
+  # deepmerge prototype poisoning: no patched release exists; only used by jest-config on trusted local config
+  ignoreGhsas:
+    - GHSA-gcqx-w48m-w2h4
