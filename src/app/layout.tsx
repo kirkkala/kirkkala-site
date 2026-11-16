@@ -18,18 +18,24 @@ const body = Source_Sans_3({
 
 export const metadata: Metadata = {
   title: {
-    default: `${site.name}`,
+    default: site.title,
     template: `%s · Kirkkala`,
   },
-  description: site.tagline,
+  description: site.description,
   metadataBase: new URL(site.links.site),
   openGraph: {
-    title: `${site.name}`,
-    description: site.tagline,
+    title: site.title,
+    description: site.description,
     url: site.links.site,
     siteName: "Kirkkala",
     locale: "en_FI",
     type: "website",
+    images: [{ url: site.image, width: 1000, height: 1000, alt: site.name }],
+  },
+  twitter: {
+    // Square photo — "summary" fits it; "summary_large_image" would crop to 2:1.
+    card: "summary",
+    images: [site.image],
   },
 };
 
