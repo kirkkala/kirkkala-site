@@ -18,7 +18,10 @@ import yosemite from "@/assets/photography/yosemite.jpg";
 export const site = {
   name: "Timo Kirkkala",
   handle: "kirkkala",
-  tagline: "Kirkkala, a software engineer and goofy guy all around.",
+  tagline: "Kirkkala, a software engineer, basketballer and goofy guy all around.",
+  jobTitle: "Señor developer, Technical delivery lead",
+  image: "/timo-kirkkala.webp",
+  location: { locality: "Helsinki", countryCode: "FI" },
   links: {
     site: "https://kirkkala.com",
     github: "https://github.com/kirkkala",
