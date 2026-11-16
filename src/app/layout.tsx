@@ -30,6 +30,12 @@ export const metadata: Metadata = {
     siteName: "Kirkkala",
     locale: "en_FI",
     type: "website",
+    images: [{ url: site.image, width: 1000, height: 1000, alt: site.name }],
+  },
+  twitter: {
+    // Square photo — "summary" fits it; "summary_large_image" would crop to 2:1.
+    card: "summary",
+    images: [site.image],
   },
 };
 

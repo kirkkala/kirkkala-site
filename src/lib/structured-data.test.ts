@@ -10,7 +10,7 @@ describe("personJsonLd", () => {
     expect(data.name).toBe(site.name);
     expect(data.url).toBe(site.links.site);
     expect(data.jobTitle).toBe(site.jobTitle);
-    expect(data.image).toBe("https://kirkkala.com/timo-kirkkala.webp");
+    expect(data.image).toBe("https://kirkkala.com/timo-kirkkala.jpg");
   });
 
   it("links to GitHub and LinkedIn via sameAs", () => {
