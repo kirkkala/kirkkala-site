@@ -1,4 +1,4 @@
-import { site } from "@/data/site";
+import { site, skills } from "@/data/site";
 import { personJsonLd } from "@/lib/structured-data";
 
 describe("personJsonLd", () => {
@@ -11,6 +11,18 @@ describe("personJsonLd", () => {
     expect(data.url).toBe(site.links.site);
     expect(data.jobTitle).toBe(site.jobTitle);
     expect(data.image).toBe("https://kirkkala.com/timo-kirkkala.jpg");
+  });
+
+  it("lists skills and basketball as topics, and the club as membership", () => {
+    const data = personJsonLd();
+
+    expect(data.knowsAbout).toEqual(expect.arrayContaining([...skills]));
+    expect(data.knowsAbout).toContain("Basketball");
+    expect(data.memberOf).toMatchObject({
+      "@type": "SportsOrganization",
+      name: site.club.name,
+      sport: "Basketball",
+    });
   });
 
   it("links to GitHub and LinkedIn via sameAs", () => {

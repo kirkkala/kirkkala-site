@@ -18,11 +18,15 @@ import yosemite from "@/assets/photography/yosemite.jpg";
 export const site = {
   name: "Timo Kirkkala",
   handle: "kirkkala",
-  tagline:
-    "Kirkkala, a software engineer, basketballer and goofy guy all around.",
+  /** Search-result title; keep short. */
+  title: "Timo Kirkkala – Developer, delivery lead & basketballer",
+  /** Meta description / search snippet; keep around 140–155 characters. */
+  description:
+    "Helsinki-based software developer and technical delivery lead (Drupal, Next.js, web). Basketballer, HNMKY team manager, goofy nice guy.",
   jobTitle: "Señor developer, Technical delivery lead",
   image: "/timo-kirkkala.jpg",
   location: { locality: "Helsinki", countryCode: "FI" },
+  club: { name: "HNMKY", url: "https://hnmky.fi" },
   links: {
     site: "https://kirkkala.com",
     github: "https://github.com/kirkkala",
